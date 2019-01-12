@@ -1,0 +1,6 @@
+\.DS_Store
+vendor
+\.idea/
+
+config\.json
+example_game/
