@@ -29,7 +29,7 @@ func Get() *Config {
 // Load attempts to open and unmarshall
 // json configuration
 func Load(path string) (*Config, error) {
-	data, err := ioutil.ReadFile(path + "config.json")
+	data, err := ioutil.ReadFile(path)
 	if err != nil {
 		return &config, err
 	}

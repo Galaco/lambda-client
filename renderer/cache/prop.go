@@ -11,10 +11,7 @@ type PropCache struct {
 }
 
 func (c *PropCache) NeedsRecache() bool {
-	if len(c.cacheList) == 0 {
-		return true
-	}
-	return false
+	return len(c.cacheList) == 0
 }
 
 func (c *PropCache) Add(props ...entity.IEntity) {

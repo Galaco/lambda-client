@@ -29,7 +29,7 @@ func main() {
 	// Load GameInfo.txt
 	// GameInfo.txt includes fundamental properties about the game
 	// and its resources locations
-	cfg, err := config.Load("./")
+	cfg, err := config.Load("./config.json")
 	if err != nil {
 		logger.Fatal(err)
 	}

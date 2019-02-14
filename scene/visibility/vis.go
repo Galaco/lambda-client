@@ -76,7 +76,7 @@ func (vis *Vis) clusterVisible(pvs *[]bool, leafCluster int16) bool {
 		return true
 	}
 
-	if true == (*pvs)[leafCluster] {
+	if (*pvs)[leafCluster] {
 		return true
 	}
 
@@ -85,7 +85,7 @@ func (vis *Vis) clusterVisible(pvs *[]bool, leafCluster int16) bool {
 
 // Test if the camera has moved, and find the current leaf if so
 func (vis *Vis) FindCurrentLeaf(position mgl32.Vec3) *leaf.Leaf {
-	if vis.viewPosition.ApproxEqualThreshold(position, 0.000000001) == false {
+	if !vis.viewPosition.ApproxEqualThreshold(position, 0.000000001) {
 		vis.viewPosition = position
 		vis.viewCurrentLeaf = &vis.Leafs[vis.findCurrentLeafIndex(vis.viewPosition)]
 	}
@@ -97,7 +97,6 @@ func (vis *Vis) FindCurrentLeaf(position mgl32.Vec3) *leaf.Leaf {
 // Based on: https://bitbucket.org/fallahn/chuf-arc
 func (vis *Vis) findCurrentLeafIndex(position mgl32.Vec3) int32 {
 	i := int32(0)
-	distance := float32(0)
 
 	//walk the bsp to find the index of the leaf which contains our position
 	for i >= 0 {
@@ -105,7 +104,7 @@ func (vis *Vis) findCurrentLeafIndex(position mgl32.Vec3) int32 {
 		plane := vis.Planes[node.PlaneNum]
 
 		//check which side of the plane the position is on so we know which direction to go
-		distance = plane.Normal.X()*position.X() + plane.Normal.Y()*position.Y() + plane.Normal.Z()*position.Z() - plane.Distance
+		distance := plane.Normal.X()*position.X() + plane.Normal.Y()*position.Y() + plane.Normal.Z()*position.Z() - plane.Distance
 		i = node.Children[0]
 		if distance < 0 {
 			i = node.Children[1]

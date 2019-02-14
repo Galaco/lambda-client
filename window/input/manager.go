@@ -49,7 +49,6 @@ func (manager *Manager) PostUpdate() {
 	input.GetMouse().PostUpdate()
 }
 
-
 // Unregister
 func (manager *Manager) Unregister() {
 
@@ -69,7 +68,7 @@ func (manager *Manager) KeyCallback(window *glfw.Window, key glfw.Key, scancode 
 
 // MouseCallback called whenever a mouse event occurs
 func (manager *Manager) MouseCallback(window *glfw.Window, xpos float64, ypos float64) {
-	if manager.lockMouse == true {
+	if manager.lockMouse {
 		manager.MouseCoordinates[0], manager.MouseCoordinates[1] = window.GetCursorPos()
 		w, h := window.GetSize()
 		event.Manager().Dispatch(&messages.MouseMove{

@@ -11,7 +11,7 @@ func TestGet(t *testing.T) {
 }
 
 func TestLoad(t *testing.T) {
-	_, err := Load("../../")
+	_, err := Load("./../config.example.json")
 
 	if err != nil {
 		t.Error(err)

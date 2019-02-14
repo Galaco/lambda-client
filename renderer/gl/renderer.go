@@ -28,8 +28,6 @@ type Renderer struct {
 
 	uniformMap map[uint32]map[string]int32
 
-	vertexDrawMode uint32
-
 	matrixes struct {
 		view       mgl32.Mat4
 		projection mgl32.Mat4
@@ -158,7 +156,7 @@ func (manager *Renderer) DrawBsp(world *world.World) {
 
 // Draw skybox (bsp model, staticprops, sky material)
 func (manager *Renderer) DrawSkybox(sky *world.Sky) {
-	if sky == nil || bsp.MapGPUResource == nil{
+	if sky == nil || bsp.MapGPUResource == nil {
 		return
 	}
 
@@ -244,7 +242,7 @@ func (manager *Renderer) DrawFace(target *mesh.Face) {
 	}
 
 	// Bind lightmap texture if it exists
-	if target.IsLightmapped() == true {
+	if target.IsLightmapped() {
 		opengl.Uniform1i(manager.uniformMap[manager.currentShaderId]["useLightmap"], 0) // lightmaps disabled
 		opengl.Uniform1i(manager.uniformMap[manager.currentShaderId]["lightmapTextureSampler"], 1)
 		//target.Lightmap().Bind()
@@ -291,7 +289,7 @@ func (manager *Renderer) DrawSkyMaterial(skybox *model.Model) {
 
 // Change the draw format.
 func (manager *Renderer) SetWireframeMode(mode bool) {
-	if mode == true {
+	if mode {
 		gosigl.SetVertexDrawMode(opengl.LINES)
 	} else {
 		gosigl.SetVertexDrawMode(gosigl.Triangles)

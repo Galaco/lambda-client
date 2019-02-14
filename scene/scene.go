@@ -7,7 +7,7 @@ import (
 )
 
 type Scene struct {
-	world    world.World
+	world    *world.World
 	entities []entity.IEntity
 	sky      *texture.Cubemap
 
@@ -47,11 +47,11 @@ func (s *Scene) GetAllEntities() *[]entity.IEntity {
 }
 
 func (s *Scene) SetWorld(world *world.World) {
-	s.world = *world
+	s.world = world
 }
 
 func (s *Scene) GetWorld() *world.World {
-	return &s.world
+	return s.world
 }
 
 func (s *Scene) GetSky() *texture.Cubemap {
@@ -84,7 +84,7 @@ func (s *Scene) Reset() {
 	s.currentCamera = nil
 	s.cameras = make([]entity.Camera, 0)
 	s.entities = make([]entity.IEntity, 0)
-	s.world = world.World{}
+	s.world = &world.World{}
 }
 
 var currentScene Scene

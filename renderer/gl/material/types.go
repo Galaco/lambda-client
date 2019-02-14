@@ -23,4 +23,3 @@ func GLTextureFormatFromVtfFormat(vtfFormat uint32) gosigl.PixelFormat {
 		return gosigl.RGB
 	}
 }
-
