@@ -1,5 +1,6 @@
 [![GoDoc](https://godoc.org/github.com/Galaco/Lambda-Core?status.svg)](https://godoc.org/github.com/Galaco/Lambda-Core)
 [![Go report card](https://goreportcard.com/badge/github.com/galaco/Lambda-Core)](https://goreportcard.com/badge/github.com/galaco/Lambda-Core)
+[![Build Status](https://travis-ci.com/Galaco/lambda-client.svg?branch=master)](https://travis-ci.com/Galaco/lambda-client)
 
 # Lambda Client
 Gource is a game engine written in golang designed that loads Valve's Source Engine projects. Put simply, pointing this projects configuration at
