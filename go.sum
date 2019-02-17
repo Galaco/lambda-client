@@ -4,6 +4,7 @@ github.com/galaco/Lambda-Core v0.0.0-20190112183752-df4119e4444a h1:VZlqmXUKgh6E
 github.com/galaco/Lambda-Core v0.0.0-20190112183752-df4119e4444a/go.mod h1:/tLp69JLf3aNHtV76RQFwv8/oXtLk1m1+p0SahUVHqQ=
 github.com/galaco/Lambda-Core v0.1.0 h1:2hxgggvQUbF5HoFUAbDaoXey1By9DFZ3z7RiPaw7LQA=
 github.com/galaco/Lambda-Core v0.1.0/go.mod h1:/tLp69JLf3aNHtV76RQFwv8/oXtLk1m1+p0SahUVHqQ=
+github.com/galaco/Lambda-Core v0.2.1/go.mod h1:/tLp69JLf3aNHtV76RQFwv8/oXtLk1m1+p0SahUVHqQ=
 github.com/galaco/StudioModel v0.0.0-20181028212841-5b8408bcc2af h1:WvaI49oII83yG2LCseuOuIIbo/f5k5iCDvFwe8W5HPI=
 github.com/galaco/StudioModel v0.0.0-20181028212841-5b8408bcc2af/go.mod h1:TyLwCRckWSsaQhePyfTOwfSXlEUJ411MwYaVkbPwOMo=
 github.com/galaco/bsp v0.1.2 h1:CFejzoNYfHpWuXNFj+iYAhSS1BovWmDfqa9rVjYGNCg=
