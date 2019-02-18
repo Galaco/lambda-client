@@ -12,6 +12,7 @@ github.com/galaco/bsp v0.1.2/go.mod h1:RcrH7F/FezUOMXKWuYyWYwrHdamdvFxZqD2lg8LFc
 github.com/galaco/gosigl v0.0.0-20181228204141-a4f1befcc399 h1:ZOSnaTmoxPbJRB3F74zvyCjhLrNXLkqaHizepSDz/rw=
 github.com/galaco/gosigl v0.0.0-20181228204141-a4f1befcc399/go.mod h1:bo6fzFnd9DxiwROJFDQ19WrqtSbzRJbJcOTv6lO7lAk=
 github.com/galaco/gosigl v0.0.0-20190217215004-633335646da6/go.mod h1:bo6fzFnd9DxiwROJFDQ19WrqtSbzRJbJcOTv6lO7lAk=
+github.com/galaco/gosigl v0.0.0-20190218095345-7d72bfe172dc/go.mod h1:bo6fzFnd9DxiwROJFDQ19WrqtSbzRJbJcOTv6lO7lAk=
 github.com/galaco/packrect v0.0.0-20190106134957-d6cd1e9d06f9 h1:olmG0U3mzsfWrBkGjllQraRq8iuFaoqDoAJjXNoai2E=
 github.com/galaco/packrect v0.0.0-20190106134957-d6cd1e9d06f9/go.mod h1:1QOQWDBGRc6sT0tglK344YodNuAGsj6WPqZXzzpv6f4=
 github.com/galaco/source-tools-common v0.0.0-20181114203108-b70b8e75c546/go.mod h1:vcKoSJ6VLGuLDPp2ptTTb1J7D51w5+t02EqlNtwMDLI=
