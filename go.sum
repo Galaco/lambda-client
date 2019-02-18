@@ -17,6 +17,7 @@ github.com/galaco/packrect v0.0.0-20190106134957-d6cd1e9d06f9/go.mod h1:1QOQWDBG
 github.com/galaco/source-tools-common v0.0.0-20181114203108-b70b8e75c546/go.mod h1:vcKoSJ6VLGuLDPp2ptTTb1J7D51w5+t02EqlNtwMDLI=
 github.com/galaco/source-tools-common v0.0.0-20190112121435-c9332f4bd668 h1:+L3TJlYxqMm1TufOMHER4da/DtlGKi7ga6rJ3myoXpw=
 github.com/galaco/source-tools-common v0.0.0-20190112121435-c9332f4bd668/go.mod h1:HjX6NiGjstPxbI0IYVqxmWtnguuJoj5Zp2bmzt4inb8=
+github.com/galaco/source-tools-common v0.1.0/go.mod h1:+TApRVomBN759va2qrv5GaLuCaK2AWxR0tn9oc2U73Q=
 github.com/galaco/vmf v0.0.0-20180309175744-7a9ccb6e8abb h1:15XPqvxG/llf53op1m6Dy4CDiZ+DUvnqc1IEqHdxxN4=
 github.com/galaco/vmf v0.0.0-20180309175744-7a9ccb6e8abb/go.mod h1:+hpnZQBHJ5xrERgGMr6f/KO0ZkxEkrvjqr3RI9aNHes=
 github.com/galaco/vpk2 v0.0.0-20181012095330-21e4d1f6c888 h1:QCMt6AZ5gwsJ3SNsvTULg/xjZIfmcbRWv6BBnkYNOWI=
@@ -34,3 +35,4 @@ github.com/logrusorgru/aurora v0.0.0-20181002194514-a7b3b318ed4e h1:9MlwzLdW7QSD
 github.com/logrusorgru/aurora v0.0.0-20181002194514-a7b3b318ed4e/go.mod h1:7rIyQOR62GCctdiQpZ/zOJlFyk6y+94wXzv6RNZgaR4=
 golang.org/x/image v0.0.0-20181206121112-cd38e8056d9b h1:9WPnadh+EKSlC7bAQtFhmNxmx/rQOj35pa7nFj6b/Dw=
 golang.org/x/image v0.0.0-20181206121112-cd38e8056d9b/go.mod h1:ux5Hcp/YLpHSI86hEcLt0YII63i6oz57MZXIpbrjZUs=
+golang.org/x/image v0.0.0-20190209060608-ef4a1470e0dc/go.mod h1:ux5Hcp/YLpHSI86hEcLt0YII63i6oz57MZXIpbrjZUs=
