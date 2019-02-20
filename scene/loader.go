@@ -16,7 +16,7 @@ import (
 	"github.com/go-gl/mathgl/mgl32"
 )
 
-func LoadFromFile(fileName string) {
+func LoadFromFile(fileName string, fs *filesystem.FileSystem) {
 	newScene := Get()
 
 	bspData, err := bsplib.ReadFromFile(fileName)
@@ -28,17 +28,17 @@ func LoadFromFile(fileName string) {
 	}
 
 	//Set pakfile for filesystem
-	filesystem.RegisterPakfile(bspData.GetLump(bsplib.LUMP_PAKFILE).(*lumps.Pakfile))
+	fs.RegisterPakFile(bspData.GetLump(bsplib.LUMP_PAKFILE).(*lumps.Pakfile))
 
-	loadWorld(newScene, bspData)
+	loadWorld(newScene, bspData, fs)
 
-	loadEntities(newScene, bspData.GetLump(bsplib.LUMP_ENTITIES).(*lumps.EntData))
+	loadEntities(newScene, bspData.GetLump(bsplib.LUMP_ENTITIES).(*lumps.EntData), fs)
 
 	loadCamera(newScene)
 }
 
-func loadWorld(targetScene *Scene, file *bsplib.Bsp) {
-	baseWorld := loader.LoadMap(file)
+func loadWorld(targetScene *Scene, file *bsplib.Bsp, fs *filesystem.FileSystem) {
+	baseWorld := loader.LoadMap(fs, file)
 
 	baseWorldBsp := baseWorld.Bsp()
 	baseWorldBspFaces := baseWorldBsp.ClusterLeafs()[0].Faces
@@ -83,7 +83,7 @@ func loadWorld(targetScene *Scene, file *bsplib.Bsp) {
 	targetScene.SetWorld(world.NewWorld(*baseWorld.Bsp(), baseWorld.StaticProps(), visData))
 }
 
-func loadEntities(targetScene *Scene, entdata *lumps.EntData) {
+func loadEntities(targetScene *Scene, entdata *lumps.EntData, fs *filesystem.FileSystem) {
 	vmfEntityTree, err := entity2.ParseEntities(entdata.GetData())
 	if err != nil {
 		logger.Fatal(err)
@@ -91,7 +91,7 @@ func loadEntities(targetScene *Scene, entdata *lumps.EntData) {
 	entityList := entitylib.FromVmfNodeTree(vmfEntityTree.Unclassified)
 	logger.Notice("Found %d entities\n", entityList.Length())
 	for i := 0; i < entityList.Length(); i++ {
-		targetScene.AddEntity(entity2.CreateEntity(entityList.Get(i)))
+		targetScene.AddEntity(entity2.CreateEntity(entityList.Get(i), fs))
 	}
 
 	skyCamera := entityList.FindByKeyValue("classname", "sky_camera")
@@ -105,7 +105,7 @@ func loadEntities(targetScene *Scene, entdata *lumps.EntData) {
 	}
 
 	targetScene.world.BuildSkybox(
-		loader.LoadSky(worldSpawn.ValueForKey("skyname")),
+		loader.LoadSky(worldSpawn.ValueForKey("skyname"), fs),
 		skyCamera.VectorForKey("origin"),
 		float32(skyCamera.IntForKey("scale")))
 }

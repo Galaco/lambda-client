@@ -41,7 +41,7 @@ func main() {
 	// Register GameInfo.txt referenced resource paths
 	// Filesystem module needs to know about all the possible resource
 	// locations it can search.
-	filesystem.RegisterGameResourcePaths(config.Get().GameDirectory, gameinfo.Get())
+	fs := filesystem.CreateFilesystemFromGameInfoDefinitions(config.Get().GameDirectory, gameinfo.Get())
 
 	// Explicity define fallbacks for missing resources
 	// Defaults are defined, but if HL2 assets are not readable, then
@@ -65,7 +65,7 @@ func main() {
 	// Register behaviour that needs to exist outside of game simulation & control
 	RegisterShutdownMethod(Application)
 
-	scene.LoadFromFile(config.Get().GameDirectory + "/maps/de_dust2.bsp")
+	scene.LoadFromFile(config.Get().GameDirectory + "/maps/de_dust2.bsp", fs)
 
 	// Start
 	Application.SetSimulationSpeed(10)
