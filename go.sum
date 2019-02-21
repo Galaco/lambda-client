@@ -26,6 +26,7 @@ github.com/galaco/packrect v0.0.0-20190106134957-d6cd1e9d06f9 h1:olmG0U3mzsfWrBk
 github.com/galaco/packrect v0.0.0-20190106134957-d6cd1e9d06f9/go.mod h1:1QOQWDBGRc6sT0tglK344YodNuAGsj6WPqZXzzpv6f4=
 github.com/galaco/packrect v0.0.0-20190112190119-9e2d67f8fa37 h1:9lAWZWuLo8dMG907qrgciO+hgR826eA6foqvHboEpUw=
 github.com/galaco/packrect v0.0.0-20190112190119-9e2d67f8fa37/go.mod h1:1QOQWDBGRc6sT0tglK344YodNuAGsj6WPqZXzzpv6f4=
+github.com/galaco/packrect v0.0.0-20190221114019-d10c60f871c0/go.mod h1:1QOQWDBGRc6sT0tglK344YodNuAGsj6WPqZXzzpv6f4=
 github.com/galaco/source-tools-common v0.0.0-20181114203108-b70b8e75c546/go.mod h1:vcKoSJ6VLGuLDPp2ptTTb1J7D51w5+t02EqlNtwMDLI=
 github.com/galaco/source-tools-common v0.0.0-20190112121435-c9332f4bd668 h1:+L3TJlYxqMm1TufOMHER4da/DtlGKi7ga6rJ3myoXpw=
 github.com/galaco/source-tools-common v0.0.0-20190112121435-c9332f4bd668/go.mod h1:HjX6NiGjstPxbI0IYVqxmWtnguuJoj5Zp2bmzt4inb8=
