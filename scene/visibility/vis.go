@@ -51,7 +51,7 @@ func (vis *Vis) cachePVSForCluster(clusterId int16) *Cache {
 		if !vis.clusterVisible(&clusterList, l.Cluster) {
 			continue
 		}
-		if l.Flags()&leaf.LEAF_FLAGS_SKY > 0 {
+		if l.Flags()&leaf.LeafFlagsSky > 0 {
 			skyVisible = true
 		}
 		leafs = append(leafs, uint16(idx))
@@ -116,11 +116,11 @@ func (vis *Vis) findCurrentLeafIndex(position mgl32.Vec3) int32 {
 
 func NewVisFromBSP(file *bsp.Bsp) *Vis {
 	return &Vis{
-		VisibilityLump: file.GetLump(bsp.LUMP_VISIBILITY).(*lumps.Visibility).GetData(),
+		VisibilityLump: file.Lump(bsp.LumpVisibility).(*lumps.Visibility).GetData(),
 		viewPosition:   mgl32.Vec3{65536, 65536, 65536},
-		Leafs:          file.GetLump(bsp.LUMP_LEAFS).(*lumps.Leaf).GetData(),
-		LeafFaces:      file.GetLump(bsp.LUMP_LEAFFACES).(*lumps.LeafFace).GetData(),
-		Nodes:          file.GetLump(bsp.LUMP_NODES).(*lumps.Node).GetData(),
-		Planes:         file.GetLump(bsp.LUMP_PLANES).(*lumps.Planes).GetData(),
+		Leafs:          file.Lump(bsp.LumpLeafs).(*lumps.Leaf).GetData(),
+		LeafFaces:      file.Lump(bsp.LumpLeafFaces).(*lumps.LeafFace).GetData(),
+		Nodes:          file.Lump(bsp.LumpNodes).(*lumps.Node).GetData(),
+		Planes:         file.Lump(bsp.LumpPlanes).(*lumps.Planes).GetData(),
 	}
 }

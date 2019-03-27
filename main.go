@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/galaco/Lambda-Client/behaviour"
 	"github.com/galaco/Lambda-Client/behaviour/controllers"
 	"github.com/galaco/Lambda-Client/config"
@@ -25,6 +26,13 @@ import (
 func main() {
 	runtime.LockOSThread()
 
+	defer func() {
+		fmt.Println("Place breakpoint here")
+		if recovered := recover(); recovered != nil {
+			fmt.Println("Handled panic:", recovered)
+		}
+	}()
+
 	logger.EnablePretty()
 	// Load GameInfo.txt
 	// GameInfo.txt includes fundamental properties about the game
@@ -46,7 +54,7 @@ func main() {
 	// Explicity define fallbacks for missing resources
 	// Defaults are defined, but if HL2 assets are not readable, then
 	// the default may not be readable
-	resource.Manager().SetErrorModelName("models/props/de_dust/du_antenna_A.mdl")
+	resource.Manager().SetErrorModelName("models/error.mdl")
 	resource.Manager().SetErrorTextureName("materials/error.vtf")
 
 	// General engine setup
@@ -65,7 +73,7 @@ func main() {
 	// Register behaviour that needs to exist outside of game simulation & control
 	RegisterShutdownMethod(Application)
 
-	scene.LoadFromFile(config.Get().GameDirectory + "/maps/de_dust2.bsp", fs)
+	scene.LoadFromFile(config.Get().GameDirectory+"/maps/d1_town_03.bsp", fs)
 
 	// Start
 	Application.SetSimulationSpeed(10)

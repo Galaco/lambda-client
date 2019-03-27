@@ -23,16 +23,16 @@ func LoadFromFile(fileName string, fs *filesystem.FileSystem) {
 	if err != nil {
 		logger.Fatal(err)
 	}
-	if bspData.GetHeader().Version < 20 {
+	if bspData.Header().Version < 19 {
 		logger.Fatal("Unsupported BSP Version. Exiting...")
 	}
 
 	//Set pakfile for filesystem
-	fs.RegisterPakFile(bspData.GetLump(bsplib.LUMP_PAKFILE).(*lumps.Pakfile))
+	fs.RegisterPakFile(bspData.Lump(bsplib.LumpPakfile).(*lumps.Pakfile))
 
 	loadWorld(newScene, bspData, fs)
 
-	loadEntities(newScene, bspData.GetLump(bsplib.LUMP_ENTITIES).(*lumps.EntData), fs)
+	loadEntities(newScene, bspData.Lump(bsplib.LumpEntities).(*lumps.EntData), fs)
 
 	loadCamera(newScene)
 }
@@ -45,7 +45,7 @@ func loadWorld(targetScene *Scene, file *bsplib.Bsp, fs *filesystem.FileSystem) 
 	baseWorldStaticProps := baseWorld.StaticProps()
 
 	visData := visibility.NewVisFromBSP(file)
-	visLump := file.GetLump(bsplib.LUMP_VISIBILITY).(*lumps.Visibility).GetData()
+	visLump := file.Lump(bsplib.LumpVisibility).(*lumps.Visibility).GetData()
 	bspClusters := make([]model.ClusterLeaf, visLump.NumClusters)
 	defaultCluster := model.ClusterLeaf{
 		Id: 32767,

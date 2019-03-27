@@ -11,13 +11,18 @@ github.com/galaco/Lambda-Core v0.3.0 h1:R25/wbft6P4Rwa35KWKJ5d1mwLlfh1kjX4phZNdm
 github.com/galaco/Lambda-Core v0.3.0/go.mod h1:H+ir5q61am4L0as5Uh5YZrqQU1LkLhS0laJGbL2TbT8=
 github.com/galaco/Lambda-Core v0.3.1 h1:IZTgVGGRZE67uLG71V/YbVq338s/W1ynrJCIRBMtFlQ=
 github.com/galaco/Lambda-Core v0.3.1/go.mod h1:H+ir5q61am4L0as5Uh5YZrqQU1LkLhS0laJGbL2TbT8=
+github.com/galaco/Lambda-Core v0.3.2 h1:muxzo8xjalaFRLWTYkMHQ5tjn0VtXNRyiBfBPWbQzD0=
 github.com/galaco/Lambda-Core v0.3.2/go.mod h1:WyCCBsbgPEhnaRhnDqs99tMQnFh5eANzpiPjEMU7egM=
+github.com/galaco/Lambda-Core v0.3.3 h1:OhKUnje5e3wI1yTYpw/te93JUZMMcpbQJ9d6mHGGekQ=
+github.com/galaco/Lambda-Core v0.3.3/go.mod h1:8YbPQyWiqxJTeNGcrbakUnI0WxGlQG+S2e80FlKPbzw=
 github.com/galaco/StudioModel v0.0.0-20181028212841-5b8408bcc2af h1:WvaI49oII83yG2LCseuOuIIbo/f5k5iCDvFwe8W5HPI=
 github.com/galaco/StudioModel v0.0.0-20181028212841-5b8408bcc2af/go.mod h1:TyLwCRckWSsaQhePyfTOwfSXlEUJ411MwYaVkbPwOMo=
 github.com/galaco/StudioModel v0.1.0 h1:TLDYjlx3C1yNfDjV2XI5NW+UayIQexfNBQfF1JJsNTI=
 github.com/galaco/StudioModel v0.1.0/go.mod h1:kMK3O6si6tHlxuxYvUAOuPsINUq00i+N5FqusJqaEvs=
 github.com/galaco/bsp v0.1.2 h1:CFejzoNYfHpWuXNFj+iYAhSS1BovWmDfqa9rVjYGNCg=
 github.com/galaco/bsp v0.1.2/go.mod h1:RcrH7F/FezUOMXKWuYyWYwrHdamdvFxZqD2lg8LFcnc=
+github.com/galaco/bsp v0.2.0 h1:tZOM54U1WYvhrce7jNWH4Ys8qigfTvkmgcRRojkrbn8=
+github.com/galaco/bsp v0.2.0/go.mod h1:vVqNXegfrOnlhmdNeWuJXhT8GUOFxBUkKIj7EYSzzhM=
 github.com/galaco/gosigl v0.0.0-20181228204141-a4f1befcc399 h1:ZOSnaTmoxPbJRB3F74zvyCjhLrNXLkqaHizepSDz/rw=
 github.com/galaco/gosigl v0.0.0-20181228204141-a4f1befcc399/go.mod h1:bo6fzFnd9DxiwROJFDQ19WrqtSbzRJbJcOTv6lO7lAk=
 github.com/galaco/gosigl v0.0.0-20190217215004-633335646da6/go.mod h1:bo6fzFnd9DxiwROJFDQ19WrqtSbzRJbJcOTv6lO7lAk=
@@ -57,3 +62,8 @@ golang.org/x/image v0.0.0-20181206121112-cd38e8056d9b h1:9WPnadh+EKSlC7bAQtFhmNx
 golang.org/x/image v0.0.0-20181206121112-cd38e8056d9b/go.mod h1:ux5Hcp/YLpHSI86hEcLt0YII63i6oz57MZXIpbrjZUs=
 golang.org/x/image v0.0.0-20190209060608-ef4a1470e0dc h1:P8UBp9iv2ZY5xjf9rnwI9s/hywlCgyKzpLsfk30IVyw=
 golang.org/x/image v0.0.0-20190209060608-ef4a1470e0dc/go.mod h1:ux5Hcp/YLpHSI86hEcLt0YII63i6oz57MZXIpbrjZUs=
+golang.org/x/image v0.0.0-20190220224229-31aff87c08e9 h1:NR6w0q42xLWn1hkq7aXoJfHkxB+5DwodOYc1MEagNjk=
+golang.org/x/image v0.0.0-20190220224229-31aff87c08e9/go.mod h1:kZ7UVZpmo3dzQBMxlp+ypCbDeSB+sBbTgSJuh5dn5js=
+golang.org/x/image v0.0.0-20190321074427-3fc05d484e9f h1:z/o0u5qyWy3JuPnwyx0pAuT5AZs4UHHkb6IgeEJ6oR0=
+golang.org/x/image v0.0.0-20190321074427-3fc05d484e9f/go.mod h1:kZ7UVZpmo3dzQBMxlp+ypCbDeSB+sBbTgSJuh5dn5js=
+golang.org/x/text v0.3.0/go.mod h1:NqM8EUOU14njkJ3fqMW+pc6Ldnwhi/IjpwHt7yyuwOQ=
