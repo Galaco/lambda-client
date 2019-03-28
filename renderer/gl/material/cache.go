@@ -2,25 +2,63 @@ package material
 
 import (
 	"github.com/galaco/Lambda-Core/core/event"
-	"github.com/galaco/Lambda-Core/core/resource"
+	"github.com/galaco/Lambda-Core/core/material"
 	"github.com/galaco/Lambda-Core/core/resource/message"
 	"github.com/galaco/gosigl"
 )
 
-var TextureIdMap map[string]gosigl.TextureBindingId
-
-func SyncTextureToGpu(dispatched event.IMessage) {
-	msg := dispatched.(*message.TextureLoaded)
-	TextureIdMap[msg.Resource.(resource.IResource).GetFilePath()] = gosigl.CreateTexture2D(
-		gosigl.TextureSlot(0),
-		msg.Resource.Width(),
-		msg.Resource.Height(),
-		msg.Resource.PixelDataForFrame(0),
-		gosigl.PixelFormat(GLTextureFormatFromVtfFormat(msg.Resource.Format())),
-		false)
+type Cache struct {
+	textureIdMap map[string]gosigl.TextureBindingId
 }
 
-func DestroyTextureOnGPU(dispatched event.IMessage) {
-	msg := dispatched.(*message.TextureUnloaded)
-	gosigl.DeleteTextures(TextureIdMap[msg.Resource.GetFilePath()])
+func (cache *Cache) FetchCachedTexture(textureName string) gosigl.TextureBindingId {
+	return cache.textureIdMap[textureName]
+}
+
+func (cache *Cache) SyncTextureToGpu(dispatched event.IMessage) {
+	msg := dispatched.(*message.MaterialLoaded)
+	mat := msg.Resource.(*material.Material)
+
+	if mat.Textures.Albedo == nil {
+		return
+	}
+
+	if _,ok := cache.textureIdMap[mat.Textures.Albedo.GetFilePath()]; !ok {
+		cache.textureIdMap[mat.Textures.Albedo.GetFilePath()] = gosigl.CreateTexture2D(
+			gosigl.TextureSlot(0),
+			mat.Textures.Albedo.Width(),
+			mat.Textures.Albedo.Height(),
+			mat.Textures.Albedo.PixelDataForFrame(0),
+			gosigl.PixelFormat(GLTextureFormatFromVtfFormat(mat.Textures.Albedo.Format())),
+			false)
+	}
+
+	if mat.Textures.Normal != nil {
+		if _,ok := cache.textureIdMap[mat.Textures.Normal.GetFilePath()]; !ok {
+			cache.textureIdMap[mat.Textures.Normal.GetFilePath()] = gosigl.CreateTexture2D(
+				gosigl.TextureSlot(1),
+				mat.Textures.Normal.Width(),
+				mat.Textures.Normal.Height(),
+				mat.Textures.Normal.PixelDataForFrame(0),
+				gosigl.PixelFormat(GLTextureFormatFromVtfFormat(mat.Textures.Normal.Format())),
+				false)
+		}
+	}
+}
+
+func (cache *Cache) DestroyTextureOnGPU(dispatched event.IMessage) {
+	msg := dispatched.(*message.MaterialLoaded)
+	mat := msg.Resource.(*material.Material)
+	if mat.Textures.Albedo != nil {
+		gosigl.DeleteTextures(cache.textureIdMap[mat.Textures.Albedo.GetFilePath()])
+	}
+	if mat.Textures.Normal != nil {
+		gosigl.DeleteTextures(cache.textureIdMap[mat.Textures.Normal.GetFilePath()])
+	}
+}
+
+func NewCache() *Cache {
+	return &Cache{
+		textureIdMap: map[string]gosigl.TextureBindingId{},
+	}
 }

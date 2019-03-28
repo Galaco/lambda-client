@@ -16,6 +16,7 @@ import (
 	"github.com/galaco/Lambda-Core/core/resource"
 	"github.com/galaco/Lambda-Core/game"
 	"github.com/galaco/Lambda-Core/lib/gameinfo"
+	"os"
 	"runtime"
 )
 
@@ -33,17 +34,18 @@ func main() {
 		}
 	}()
 
+	logger.SetWriter(os.Stdout)
 	logger.EnablePretty()
 	// Load GameInfo.txt
 	// GameInfo.txt includes fundamental properties about the game
 	// and its resources locations
 	cfg, err := config.Load("./config.json")
 	if err != nil {
-		logger.Fatal(err)
+		logger.Panic(err)
 	}
 	_, err = gameinfo.LoadConfig(cfg.GameDirectory)
 	if err != nil {
-		logger.Fatal(err)
+		logger.Panic(err)
 	}
 
 	// Register GameInfo.txt referenced resource paths
@@ -54,7 +56,7 @@ func main() {
 	// Explicity define fallbacks for missing resources
 	// Defaults are defined, but if HL2 assets are not readable, then
 	// the default may not be readable
-	resource.Manager().SetErrorModelName("models/error.mdl")
+	resource.Manager().SetErrorModelName("models/props/de_dust/du_antenna_A.mdl")
 	resource.Manager().SetErrorTextureName("materials/error.vtf")
 
 	// General engine setup
@@ -73,7 +75,7 @@ func main() {
 	// Register behaviour that needs to exist outside of game simulation & control
 	RegisterShutdownMethod(Application)
 
-	scene.LoadFromFile(config.Get().GameDirectory+"/maps/d1_town_03.bsp", fs)
+	scene.LoadFromFile(config.Get().GameDirectory + config.Get().Map, fs)
 
 	// Start
 	Application.SetSimulationSpeed(10)
@@ -84,10 +86,10 @@ func main() {
 
 // SetGame registers game entities and returns game name
 func SetGame(proj game.IGame) string {
-	windowName := "Gource"
+	windowName := "Lambda-Client: A BSP Viewer"
 	gameInfoNode, _ := gameinfo.Get().Find("GameInfo")
 	if gameInfoNode == nil {
-		logger.Fatal("gameinfo was not found.")
+		logger.Panic("gameinfo was not found.")
 	}
 	gameNode, _ := gameInfoNode.Find("game")
 	if gameNode != nil {

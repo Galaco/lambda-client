@@ -28,6 +28,8 @@ type Renderer struct {
 
 	uniformMap map[uint32]map[string]int32
 
+	materialCache *material2.Cache
+
 	matrixes struct {
 		view       mgl32.Mat4
 		projection mgl32.Mat4
@@ -37,11 +39,11 @@ type Renderer struct {
 // Preparation function
 // Loads shaders and sets necessary constants for opengls state machine
 func (manager *Renderer) LoadShaders() {
-	material2.TextureIdMap = map[string]gosigl.TextureBindingId{}
+	manager.materialCache = material2.NewCache()
 	prop.ModelIdMap = map[string][]*gosigl.VertexObject{}
 
-	event.Manager().Listen(message.TypeTextureLoaded, material2.SyncTextureToGpu)
-	event.Manager().Listen(message.TypeTextureUnloaded, material2.DestroyTextureOnGPU)
+	event.Manager().Listen(message.TypeMaterialLoaded, manager.materialCache.SyncTextureToGpu)
+	event.Manager().Listen(message.TypeMaterialLoaded, manager.materialCache.DestroyTextureOnGPU)
 	event.Manager().Listen(message.TypeModelLoaded, prop.SyncPropToGpu)
 	event.Manager().Listen(message.TypeModelUnloaded, prop.DestroyPropOnGPU)
 	event.Manager().Listen(message.TypeMapLoaded, bsp.SyncMapToGpu)
@@ -49,21 +51,21 @@ func (manager *Renderer) LoadShaders() {
 	manager.lightmappedGenericShader = gosigl.NewShader()
 	err := manager.lightmappedGenericShader.AddShader(shaders.Vertex, gosigl.VertexShader)
 	if err != nil {
-		logger.Fatal(err)
+		logger.Panic(err)
 	}
 	err = manager.lightmappedGenericShader.AddShader(shaders.Fragment, gosigl.FragmentShader)
 	if err != nil {
-		logger.Fatal(err)
+		logger.Panic(err)
 	}
 	manager.lightmappedGenericShader.Finalize()
 	manager.skyShader = gosigl.NewShader()
 	err = manager.skyShader.AddShader(sky.Vertex, opengl.VERTEX_SHADER)
 	if err != nil {
-		logger.Fatal(err)
+		logger.Panic(err)
 	}
 	err = manager.skyShader.AddShader(sky.Fragment, opengl.FRAGMENT_SHADER)
 	if err != nil {
-		logger.Fatal(err)
+		logger.Panic(err)
 	}
 	manager.skyShader.Finalize()
 
@@ -208,17 +210,17 @@ func (manager *Renderer) BindMesh(target mesh.IMesh, meshBinding *gosigl.VertexO
 	if target.GetMaterial() != nil {
 		mat := target.GetMaterial().(*material.Material)
 		opengl.Uniform1i(manager.uniformMap[manager.currentShaderId]["albedoSampler"], 0)
-		gosigl.BindTexture2D(gosigl.TextureSlot(0), material2.TextureIdMap[mat.Textures.Albedo.GetFilePath()])
+		gosigl.BindTexture2D(gosigl.TextureSlot(0), manager.materialCache.FetchCachedTexture(mat.Textures.Albedo.GetFilePath()))
 
-		if mat.BumpMapName != "" && mat.Textures.Normal != nil {
+		if mat.Textures.Normal != nil {
 			opengl.Uniform1i(manager.uniformMap[manager.currentShaderId]["normalSampler"], 1)
-			gosigl.BindTexture2D(gosigl.TextureSlot(1), material2.TextureIdMap[mat.Textures.Normal.GetFilePath()])
+			gosigl.BindTexture2D(gosigl.TextureSlot(1), manager.materialCache.FetchCachedTexture(mat.Textures.Normal.GetFilePath()))
 		}
 	}
 	// Bind lightmap texture if it exists
 	if target.GetLightmap() != nil {
 		opengl.Uniform1i(manager.uniformMap[manager.currentShaderId]["useLightmap"], 0) // lightmaps disabled
-		opengl.Uniform1i(manager.uniformMap[manager.currentShaderId]["lightmapTextureSampler"], 1)
+		opengl.Uniform1i(manager.uniformMap[manager.currentShaderId]["lightmapTextureSampler"], 2)
 		//target.GetLightmap().Bind()
 	} else {
 		opengl.Uniform1i(manager.uniformMap[manager.currentShaderId]["useLightmap"], 0)
@@ -234,17 +236,17 @@ func (manager *Renderer) DrawFace(target *mesh.Face) {
 	// $basetexture
 	mat := target.Material().(*material.Material)
 	opengl.Uniform1i(manager.uniformMap[manager.currentShaderId]["albedoSampler"], 0)
-	gosigl.BindTexture2D(gosigl.TextureSlot(0), material2.TextureIdMap[mat.Textures.Albedo.GetFilePath()])
+	gosigl.BindTexture2D(gosigl.TextureSlot(0), manager.materialCache.FetchCachedTexture(mat.Textures.Albedo.GetFilePath()))
 
-	if mat.BumpMapName != "" && mat.Textures.Normal != nil {
+	if mat.Textures.Normal != nil {
 		opengl.Uniform1i(manager.uniformMap[manager.currentShaderId]["normalSampler"], 1)
-		gosigl.BindTexture2D(gosigl.TextureSlot(1), material2.TextureIdMap[mat.Textures.Normal.GetFilePath()])
+		gosigl.BindTexture2D(gosigl.TextureSlot(1), manager.materialCache.FetchCachedTexture(mat.Textures.Normal.GetFilePath()))
 	}
 
 	// Bind lightmap texture if it exists
 	if target.IsLightmapped() {
 		opengl.Uniform1i(manager.uniformMap[manager.currentShaderId]["useLightmap"], 0) // lightmaps disabled
-		opengl.Uniform1i(manager.uniformMap[manager.currentShaderId]["lightmapTextureSampler"], 1)
+		opengl.Uniform1i(manager.uniformMap[manager.currentShaderId]["lightmapTextureSampler"], 2)
 		//target.Lightmap().Bind()
 	} else {
 		opengl.Uniform1i(manager.uniformMap[manager.currentShaderId]["useLightmap"], 0)
