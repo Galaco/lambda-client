@@ -16,15 +16,15 @@ import (
 	"github.com/go-gl/mathgl/mgl32"
 )
 
-func LoadFromFile(fileName string, fs *filesystem.FileSystem) {
+func LoadFromFile(fileName string, fs filesystem.IFileSystem) {
 	newScene := Get()
 
 	bspData, err := bsplib.ReadFromFile(fileName)
 	if err != nil {
-		logger.Fatal(err)
+		logger.Panic(err)
 	}
 	if bspData.Header().Version < 19 {
-		logger.Fatal("Unsupported BSP Version. Exiting...")
+		logger.Panic("Unsupported BSP Version. Exiting...")
 	}
 
 	//Set pakfile for filesystem
@@ -37,7 +37,7 @@ func LoadFromFile(fileName string, fs *filesystem.FileSystem) {
 	loadCamera(newScene)
 }
 
-func loadWorld(targetScene *Scene, file *bsplib.Bsp, fs *filesystem.FileSystem) {
+func loadWorld(targetScene *Scene, file *bsplib.Bsp, fs filesystem.IFileSystem) {
 	baseWorld := loader.LoadMap(fs, file)
 
 	baseWorldBsp := baseWorld.Bsp()
@@ -83,10 +83,10 @@ func loadWorld(targetScene *Scene, file *bsplib.Bsp, fs *filesystem.FileSystem) 
 	targetScene.SetWorld(world.NewWorld(*baseWorld.Bsp(), baseWorld.StaticProps(), visData))
 }
 
-func loadEntities(targetScene *Scene, entdata *lumps.EntData, fs *filesystem.FileSystem) {
+func loadEntities(targetScene *Scene, entdata *lumps.EntData, fs filesystem.IFileSystem) {
 	vmfEntityTree, err := entity2.ParseEntities(entdata.GetData())
 	if err != nil {
-		logger.Fatal(err)
+		logger.Panic(err)
 	}
 	entityList := entitylib.FromVmfNodeTree(vmfEntityTree.Unclassified)
 	logger.Notice("Found %d entities\n", entityList.Length())

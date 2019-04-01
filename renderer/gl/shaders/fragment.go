@@ -44,8 +44,8 @@ var Fragment = `
 
 //		bumpNormal = CalculateNormal(normalSampler, UV);
 
-		if (useLightmap == 1) {
-			AddLightmap(frag_colour, lightmapTextureSampler, LightmapUV);
-		}
+		//if (useLightmap == 1) {
+		//	AddLightmap(frag_colour, lightmapTextureSampler, LightmapUV);
+		//}
     }
 ` + "\x00"
