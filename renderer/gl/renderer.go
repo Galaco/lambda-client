@@ -36,57 +36,56 @@ type Renderer struct {
 	}
 }
 
-// Preparation function
-// Loads shaders and sets necessary constants for opengls state machine
-func (manager *Renderer) LoadShaders() {
-	manager.materialCache = material2.NewCache()
+// LoadShaders Loads shaders and sets necessary constants for opengls state machine
+func (renderer *Renderer) LoadShaders() {
+	renderer.materialCache = material2.NewCache()
 	prop.ModelIdMap = map[string][]*gosigl.VertexObject{}
 
-	event.Manager().Listen(message.TypeMaterialLoaded, manager.materialCache.SyncTextureToGpu)
-	event.Manager().Listen(message.TypeMaterialLoaded, manager.materialCache.DestroyTextureOnGPU)
+	event.Manager().Listen(message.TypeMaterialLoaded, renderer.materialCache.SyncTextureToGpu)
+	event.Manager().Listen(message.TypeMaterialUnloaded, renderer.materialCache.DestroyTextureOnGPU)
 	event.Manager().Listen(message.TypeModelLoaded, prop.SyncPropToGpu)
 	event.Manager().Listen(message.TypeModelUnloaded, prop.DestroyPropOnGPU)
 	event.Manager().Listen(message.TypeMapLoaded, bsp.SyncMapToGpu)
 
-	manager.lightmappedGenericShader = gosigl.NewShader()
-	err := manager.lightmappedGenericShader.AddShader(shaders.Vertex, gosigl.VertexShader)
+	renderer.lightmappedGenericShader = gosigl.NewShader()
+	err := renderer.lightmappedGenericShader.AddShader(shaders.Vertex, gosigl.VertexShader)
 	if err != nil {
 		logger.Panic(err)
 	}
-	err = manager.lightmappedGenericShader.AddShader(shaders.Fragment, gosigl.FragmentShader)
+	err = renderer.lightmappedGenericShader.AddShader(shaders.Fragment, gosigl.FragmentShader)
 	if err != nil {
 		logger.Panic(err)
 	}
-	manager.lightmappedGenericShader.Finalize()
-	manager.skyShader = gosigl.NewShader()
-	err = manager.skyShader.AddShader(sky.Vertex, opengl.VERTEX_SHADER)
+	renderer.lightmappedGenericShader.Finalize()
+	renderer.skyShader = gosigl.NewShader()
+	err = renderer.skyShader.AddShader(sky.Vertex, opengl.VERTEX_SHADER)
 	if err != nil {
 		logger.Panic(err)
 	}
-	err = manager.skyShader.AddShader(sky.Fragment, opengl.FRAGMENT_SHADER)
+	err = renderer.skyShader.AddShader(sky.Fragment, opengl.FRAGMENT_SHADER)
 	if err != nil {
 		logger.Panic(err)
 	}
-	manager.skyShader.Finalize()
+	renderer.skyShader.Finalize()
 
 	//matrixes
 	skyShaderMap := map[string]int32{}
-	skyShaderMap["model"] = manager.skyShader.GetUniform("model")
-	skyShaderMap["projection"] = manager.skyShader.GetUniform("projection")
-	skyShaderMap["view"] = manager.skyShader.GetUniform("view")
-	skyShaderMap["cubemapTexture"] = manager.lightmappedGenericShader.GetUniform("cubemapTexture")
-	manager.uniformMap[manager.skyShader.Id()] = skyShaderMap
+	skyShaderMap["model"] = renderer.skyShader.GetUniform("model")
+	skyShaderMap["projection"] = renderer.skyShader.GetUniform("projection")
+	skyShaderMap["view"] = renderer.skyShader.GetUniform("view")
+	skyShaderMap["cubemapTexture"] = renderer.lightmappedGenericShader.GetUniform("cubemapTexture")
+	renderer.uniformMap[renderer.skyShader.Id()] = skyShaderMap
 
-	manager.lightmappedGenericShader.UseProgram()
+	renderer.lightmappedGenericShader.UseProgram()
 	lightmappedGenericShaderMap := map[string]int32{}
-	lightmappedGenericShaderMap["model"] = manager.lightmappedGenericShader.GetUniform("model")
-	lightmappedGenericShaderMap["projection"] = manager.lightmappedGenericShader.GetUniform("projection")
-	lightmappedGenericShaderMap["view"] = manager.lightmappedGenericShader.GetUniform("view")
+	lightmappedGenericShaderMap["model"] = renderer.lightmappedGenericShader.GetUniform("model")
+	lightmappedGenericShaderMap["projection"] = renderer.lightmappedGenericShader.GetUniform("projection")
+	lightmappedGenericShaderMap["view"] = renderer.lightmappedGenericShader.GetUniform("view")
 	//material properties
-	lightmappedGenericShaderMap["albedoSampler"] = manager.lightmappedGenericShader.GetUniform("albedoSampler")
-	lightmappedGenericShaderMap["useLightmap"] = manager.lightmappedGenericShader.GetUniform("useLightmap")
-	lightmappedGenericShaderMap["lightmapTextureSampler"] = manager.lightmappedGenericShader.GetUniform("lightmapTextureSampler")
-	manager.uniformMap[manager.lightmappedGenericShader.Id()] = lightmappedGenericShaderMap
+	lightmappedGenericShaderMap["albedoSampler"] = renderer.lightmappedGenericShader.GetUniform("albedoSampler")
+	lightmappedGenericShaderMap["useLightmap"] = renderer.lightmappedGenericShader.GetUniform("useLightmap")
+	lightmappedGenericShaderMap["lightmapTextureSampler"] = renderer.lightmappedGenericShader.GetUniform("lightmapTextureSampler")
+	renderer.uniformMap[renderer.lightmappedGenericShader.Id()] = lightmappedGenericShaderMap
 
 	gosigl.SetLineWidth(32)
 	gosigl.EnableBlend()
@@ -99,28 +98,28 @@ func (manager *Renderer) LoadShaders() {
 var numCalls = 0
 
 // Called at the start of a frame
-func (manager *Renderer) StartFrame(camera *entity.Camera) {
-	manager.matrixes.projection = camera.ProjectionMatrix()
-	manager.matrixes.view = camera.ViewMatrix()
+func (renderer *Renderer) StartFrame(camera *entity.Camera) {
+	renderer.matrixes.projection = camera.ProjectionMatrix()
+	renderer.matrixes.view = camera.ViewMatrix()
 
 	// Sky
-	manager.skyShader.UseProgram()
-	manager.setShader(manager.skyShader.Id())
-	opengl.UniformMatrix4fv(manager.uniformMap[manager.skyShader.Id()]["projection"], 1, false, &manager.matrixes.projection[0])
-	opengl.UniformMatrix4fv(manager.uniformMap[manager.skyShader.Id()]["view"], 1, false, &manager.matrixes.view[0])
+	renderer.skyShader.UseProgram()
+	renderer.setShader(renderer.skyShader.Id())
+	opengl.UniformMatrix4fv(renderer.uniformMap[renderer.skyShader.Id()]["projection"], 1, false, &renderer.matrixes.projection[0])
+	opengl.UniformMatrix4fv(renderer.uniformMap[renderer.skyShader.Id()]["view"], 1, false, &renderer.matrixes.view[0])
 
-	manager.lightmappedGenericShader.UseProgram()
-	manager.setShader(manager.lightmappedGenericShader.Id())
+	renderer.lightmappedGenericShader.UseProgram()
+	renderer.setShader(renderer.lightmappedGenericShader.Id())
 
 	//matrixes
-	opengl.UniformMatrix4fv(manager.uniformMap[manager.lightmappedGenericShader.Id()]["projection"], 1, false, &manager.matrixes.projection[0])
-	opengl.UniformMatrix4fv(manager.uniformMap[manager.lightmappedGenericShader.Id()]["view"], 1, false, &manager.matrixes.view[0])
+	opengl.UniformMatrix4fv(renderer.uniformMap[renderer.lightmappedGenericShader.Id()]["projection"], 1, false, &renderer.matrixes.projection[0])
+	opengl.UniformMatrix4fv(renderer.uniformMap[renderer.lightmappedGenericShader.Id()]["view"], 1, false, &renderer.matrixes.view[0])
 
 	gosigl.Clear(gosigl.MaskColourBufferBit, gosigl.MaskDepthBufferBit)
 }
 
 // Called at the end of a frame
-func (manager *Renderer) EndFrame() {
+func (renderer *Renderer) EndFrame() {
 	//if glError := opengl.GetError(); glError != opengl.NO_ERROR {
 	//	logger.Error("error: %d\n", glError)
 	//}
@@ -129,63 +128,63 @@ func (manager *Renderer) EndFrame() {
 }
 
 // Draw the main bsp world
-func (manager *Renderer) DrawBsp(world *world.World) {
+func (renderer *Renderer) DrawBsp(world *world.World) {
 	if bsp.MapGPUResource == nil {
 		return
 	}
 
 	modelMatrix := mgl32.Ident4()
-	opengl.UniformMatrix4fv(manager.uniformMap[manager.currentShaderId]["model"], 1, false, &modelMatrix[0])
+	opengl.UniformMatrix4fv(renderer.uniformMap[renderer.currentShaderId]["model"], 1, false, &modelMatrix[0])
 	gosigl.BindMesh(bsp.MapGPUResource)
-	//manager.BindMesh(world.Bsp().Mesh())
+	//renderer.BindMesh(world.Bsp().Mesh())
 	for _, cluster := range world.VisibleClusters() {
 		for _, face := range cluster.Faces {
-			manager.DrawFace(&face)
+			renderer.DrawFace(&face)
 		}
 	}
 	for _, face := range world.Bsp().DefaultCluster().Faces {
-		manager.DrawFace(&face)
+		renderer.DrawFace(&face)
 	}
 	for _, cluster := range world.VisibleClusters() {
 		for _, prop := range cluster.StaticProps {
-			manager.DrawModel(prop.GetModel(), prop.Transform().GetTransformationMatrix())
+			renderer.DrawModel(prop.GetModel(), prop.Transform().GetTransformationMatrix())
 		}
 	}
 	for _, prop := range world.Bsp().DefaultCluster().StaticProps {
-		manager.DrawModel(prop.GetModel(), prop.Transform().GetTransformationMatrix())
+		renderer.DrawModel(prop.GetModel(), prop.Transform().GetTransformationMatrix())
 	}
 }
 
 // Draw skybox (bsp model, staticprops, sky material)
-func (manager *Renderer) DrawSkybox(sky *world.Sky) {
+func (renderer *Renderer) DrawSkybox(sky *world.Sky) {
 	if sky == nil || bsp.MapGPUResource == nil {
 		return
 	}
 
 	if sky.GetVisibleBsp() != nil {
 		modelMatrix := sky.Transform().GetTransformationMatrix()
-		opengl.UniformMatrix4fv(manager.uniformMap[manager.currentShaderId]["model"], 1, false, &modelMatrix[0])
+		opengl.UniformMatrix4fv(renderer.uniformMap[renderer.currentShaderId]["model"], 1, false, &modelMatrix[0])
 
 		gosigl.BindMesh(bsp.MapGPUResource)
-		//manager.BindMesh(sky.GetVisibleBsp().Mesh())
+		//renderer.BindMesh(sky.GetVisibleBsp().Mesh())
 		for _, cluster := range sky.GetClusterLeafs() {
 			for _, face := range cluster.Faces {
-				manager.DrawFace(&face)
+				renderer.DrawFace(&face)
 			}
 		}
 		for _, cluster := range sky.GetClusterLeafs() {
 			for _, prop := range cluster.StaticProps {
-				manager.DrawModel(prop.GetModel(), prop.Transform().GetTransformationMatrix())
+				renderer.DrawModel(prop.GetModel(), prop.Transform().GetTransformationMatrix())
 			}
 		}
 	}
 
-	//manager.DrawSkyMaterial(sky.GetCubemap())
+	//renderer.DrawSkyMaterial(sky.GetCubemap())
 }
 
 // Render a mesh and its submeshes/primitives
-func (manager *Renderer) DrawModel(model *model.Model, transform mgl32.Mat4) {
-	opengl.UniformMatrix4fv(manager.uniformMap[manager.currentShaderId]["model"], 1, false, &transform[0])
+func (renderer *Renderer) DrawModel(model *model.Model, transform mgl32.Mat4) {
+	opengl.UniformMatrix4fv(renderer.uniformMap[renderer.currentShaderId]["model"], 1, false, &transform[0])
 	modelBinding := prop.ModelIdMap[model.GetFilePath()]
 	if modelBinding == nil {
 		return
@@ -196,38 +195,38 @@ func (manager *Renderer) DrawModel(model *model.Model, transform mgl32.Mat4) {
 			// We need the fallback material
 			continue
 		}
-		manager.BindMesh(mesh, modelBinding[idx])
+		renderer.BindMesh(mesh, modelBinding[idx])
 		gosigl.DrawArray(0, len(mesh.Vertices())/3)
 
 		numCalls++
 	}
 }
 
-func (manager *Renderer) BindMesh(target mesh.IMesh, meshBinding *gosigl.VertexObject) {
+func (renderer *Renderer) BindMesh(target mesh.IMesh, meshBinding *gosigl.VertexObject) {
 	gosigl.BindMesh(meshBinding)
 	//target.Bind()
 	// $basetexture
 	if target.GetMaterial() != nil {
 		mat := target.GetMaterial().(*material.Material)
-		opengl.Uniform1i(manager.uniformMap[manager.currentShaderId]["albedoSampler"], 0)
-		gosigl.BindTexture2D(gosigl.TextureSlot(0), manager.materialCache.FetchCachedTexture(mat.Textures.Albedo.GetFilePath()))
+		opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["albedoSampler"], 0)
+		gosigl.BindTexture2D(gosigl.TextureSlot(0), renderer.materialCache.FetchCachedTexture(mat.Textures.Albedo.GetFilePath()))
 
 		if mat.Textures.Normal != nil {
-			opengl.Uniform1i(manager.uniformMap[manager.currentShaderId]["normalSampler"], 1)
-			gosigl.BindTexture2D(gosigl.TextureSlot(1), manager.materialCache.FetchCachedTexture(mat.Textures.Normal.GetFilePath()))
+			opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["normalSampler"], 1)
+			gosigl.BindTexture2D(gosigl.TextureSlot(1), renderer.materialCache.FetchCachedTexture(mat.Textures.Normal.GetFilePath()))
 		}
 	}
 	// Bind lightmap texture if it exists
 	if target.GetLightmap() != nil {
-		opengl.Uniform1i(manager.uniformMap[manager.currentShaderId]["useLightmap"], 0) // lightmaps disabled
-		opengl.Uniform1i(manager.uniformMap[manager.currentShaderId]["lightmapTextureSampler"], 2)
+		opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["useLightmap"], 0) // lightmaps disabled
+		opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["lightmapTextureSampler"], 2)
 		//target.GetLightmap().Bind()
 	} else {
-		opengl.Uniform1i(manager.uniformMap[manager.currentShaderId]["useLightmap"], 0)
+		opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["useLightmap"], 0)
 	}
 }
 
-func (manager *Renderer) DrawFace(target *mesh.Face) {
+func (renderer *Renderer) DrawFace(target *mesh.Face) {
 	// Skip materialless faces
 	if target.Material() == nil {
 		return
@@ -235,27 +234,27 @@ func (manager *Renderer) DrawFace(target *mesh.Face) {
 
 	// $basetexture
 	mat := target.Material().(*material.Material)
-	opengl.Uniform1i(manager.uniformMap[manager.currentShaderId]["albedoSampler"], 0)
-	gosigl.BindTexture2D(gosigl.TextureSlot(0), manager.materialCache.FetchCachedTexture(mat.Textures.Albedo.GetFilePath()))
+	opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["albedoSampler"], 0)
+	gosigl.BindTexture2D(gosigl.TextureSlot(0), renderer.materialCache.FetchCachedTexture(mat.Textures.Albedo.GetFilePath()))
 
 	if mat.Textures.Normal != nil {
-		opengl.Uniform1i(manager.uniformMap[manager.currentShaderId]["normalSampler"], 1)
-		gosigl.BindTexture2D(gosigl.TextureSlot(1), manager.materialCache.FetchCachedTexture(mat.Textures.Normal.GetFilePath()))
+		opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["normalSampler"], 1)
+		gosigl.BindTexture2D(gosigl.TextureSlot(1), renderer.materialCache.FetchCachedTexture(mat.Textures.Normal.GetFilePath()))
 	}
 
 	// Bind lightmap texture if it exists
 	if target.IsLightmapped() {
-		opengl.Uniform1i(manager.uniformMap[manager.currentShaderId]["useLightmap"], 0) // lightmaps disabled
-		opengl.Uniform1i(manager.uniformMap[manager.currentShaderId]["lightmapTextureSampler"], 2)
+		opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["useLightmap"], 0) // lightmaps disabled
+		opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["lightmapTextureSampler"], 2)
 		//target.Lightmap().Bind()
 	} else {
-		opengl.Uniform1i(manager.uniformMap[manager.currentShaderId]["useLightmap"], 0)
+		opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["useLightmap"], 0)
 	}
 	gosigl.DrawArray(int(target.Offset()), int(target.Length()))
 }
 
 // Render the sky material
-func (manager *Renderer) DrawSkyMaterial(skybox *model.Model) {
+func (renderer *Renderer) DrawSkyMaterial(skybox *model.Model) {
 	if skybox == nil {
 		return
 	}
@@ -268,16 +267,16 @@ func (manager *Renderer) DrawSkyMaterial(skybox *model.Model) {
 	opengl.DepthFunc(opengl.LEQUAL)
 	opengl.DepthMask(false)
 
-	manager.skyShader.UseProgram()
-	manager.setShader(manager.skyShader.Id())
-	opengl.UniformMatrix4fv(manager.uniformMap[manager.skyShader.Id()]["projection"], 1, false, &manager.matrixes.projection[0])
-	opengl.UniformMatrix4fv(manager.uniformMap[manager.skyShader.Id()]["view"], 1, false, &manager.matrixes.view[0])
+	renderer.skyShader.UseProgram()
+	renderer.setShader(renderer.skyShader.Id())
+	opengl.UniformMatrix4fv(renderer.uniformMap[renderer.skyShader.Id()]["projection"], 1, false, &renderer.matrixes.projection[0])
+	opengl.UniformMatrix4fv(renderer.uniformMap[renderer.skyShader.Id()]["view"], 1, false, &renderer.matrixes.view[0])
 
 	//DRAW
 	//skybox.GetMeshes()[0].Bind()
 	//skybox.GetMeshes()[0].GetMaterial().Bind()
-	opengl.Uniform1i(manager.uniformMap[manager.currentShaderId]["cubemapSampler"], 0)
-	manager.DrawModel(skybox, mgl32.Ident4())
+	opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["cubemapSampler"], 0)
+	renderer.DrawModel(skybox, mgl32.Ident4())
 
 	// End
 	opengl.DepthMask(true)
@@ -285,12 +284,12 @@ func (manager *Renderer) DrawSkyMaterial(skybox *model.Model) {
 	opengl.DepthFunc(uint32(oldDepthFuncMode))
 
 	// Back to default shader
-	manager.lightmappedGenericShader.UseProgram()
-	manager.setShader(manager.lightmappedGenericShader.Id())
+	renderer.lightmappedGenericShader.UseProgram()
+	renderer.setShader(renderer.lightmappedGenericShader.Id())
 }
 
 // Change the draw format.
-func (manager *Renderer) SetWireframeMode(mode bool) {
+func (renderer *Renderer) SetWireframeMode(mode bool) {
 	if mode {
 		gosigl.SetVertexDrawMode(opengl.LINES)
 	} else {
@@ -298,15 +297,15 @@ func (manager *Renderer) SetWireframeMode(mode bool) {
 	}
 }
 
-func (manager *Renderer) setShader(shader uint32) {
-	if manager.currentShaderId != shader {
-		manager.currentShaderId = shader
+func (renderer *Renderer) setShader(shader uint32) {
+	if renderer.currentShaderId != shader {
+		renderer.currentShaderId = shader
 	}
 }
 
-func (manager *Renderer) Unregister() {
-	manager.skyShader.Destroy()
-	manager.lightmappedGenericShader.Destroy()
+func (renderer *Renderer) Unregister() {
+	renderer.skyShader.Destroy()
+	renderer.lightmappedGenericShader.Destroy()
 }
 
 func NewRenderer() *Renderer {

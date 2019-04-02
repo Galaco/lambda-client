@@ -5,10 +5,12 @@ import (
 	"github.com/galaco/Lambda-Core/core/material"
 	"github.com/galaco/Lambda-Core/core/resource/message"
 	"github.com/galaco/gosigl"
+	"sync"
 )
 
 type Cache struct {
 	textureIdMap map[string]gosigl.TextureBindingId
+	mut          sync.Mutex
 }
 
 func (cache *Cache) FetchCachedTexture(textureName string) gosigl.TextureBindingId {
@@ -23,7 +25,8 @@ func (cache *Cache) SyncTextureToGpu(dispatched event.IMessage) {
 		return
 	}
 
-	if _,ok := cache.textureIdMap[mat.Textures.Albedo.GetFilePath()]; !ok {
+	cache.mut.Lock()
+	if _, ok := cache.textureIdMap[mat.Textures.Albedo.GetFilePath()]; !ok {
 		cache.textureIdMap[mat.Textures.Albedo.GetFilePath()] = gosigl.CreateTexture2D(
 			gosigl.TextureSlot(0),
 			mat.Textures.Albedo.Width(),
@@ -34,7 +37,7 @@ func (cache *Cache) SyncTextureToGpu(dispatched event.IMessage) {
 	}
 
 	if mat.Textures.Normal != nil {
-		if _,ok := cache.textureIdMap[mat.Textures.Normal.GetFilePath()]; !ok {
+		if _, ok := cache.textureIdMap[mat.Textures.Normal.GetFilePath()]; !ok {
 			cache.textureIdMap[mat.Textures.Normal.GetFilePath()] = gosigl.CreateTexture2D(
 				gosigl.TextureSlot(1),
 				mat.Textures.Normal.Width(),
@@ -44,10 +47,11 @@ func (cache *Cache) SyncTextureToGpu(dispatched event.IMessage) {
 				false)
 		}
 	}
+	cache.mut.Unlock()
 }
 
 func (cache *Cache) DestroyTextureOnGPU(dispatched event.IMessage) {
-	msg := dispatched.(*message.MaterialLoaded)
+	msg := dispatched.(*message.MaterialUnloaded)
 	mat := msg.Resource.(*material.Material)
 	if mat.Textures.Albedo != nil {
 		gosigl.DeleteTextures(cache.textureIdMap[mat.Textures.Albedo.GetFilePath()])
