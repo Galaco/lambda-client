@@ -83,6 +83,7 @@ func (renderer *Renderer) LoadShaders() {
 	lightmappedGenericShaderMap["view"] = renderer.lightmappedGenericShader.GetUniform("view")
 	//material properties
 	lightmappedGenericShaderMap["albedoSampler"] = renderer.lightmappedGenericShader.GetUniform("albedoSampler")
+	lightmappedGenericShaderMap["normalSampler"] = renderer.lightmappedGenericShader.GetUniform("normalSampler")
 	lightmappedGenericShaderMap["useLightmap"] = renderer.lightmappedGenericShader.GetUniform("useLightmap")
 	lightmappedGenericShaderMap["lightmapTextureSampler"] = renderer.lightmappedGenericShader.GetUniform("lightmapTextureSampler")
 	renderer.uniformMap[renderer.lightmappedGenericShader.Id()] = lightmappedGenericShaderMap
@@ -217,13 +218,13 @@ func (renderer *Renderer) BindMesh(target mesh.IMesh, meshBinding *gosigl.Vertex
 		}
 	}
 	// Bind lightmap texture if it exists
-	if target.GetLightmap() != nil {
-		opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["useLightmap"], 0) // lightmaps disabled
-		opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["lightmapTextureSampler"], 2)
-		//target.GetLightmap().Bind()
-	} else {
+	//if target.GetLightmap() != nil {
+	//	opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["useLightmap"], 0) // lightmaps disabled
+	//	opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["lightmapTextureSampler"], 2)
+	//	//target.GetLightmap().Bind()
+	//} else {
 		opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["useLightmap"], 0)
-	}
+	//}
 }
 
 func (renderer *Renderer) DrawFace(target *mesh.Face) {
@@ -238,18 +239,18 @@ func (renderer *Renderer) DrawFace(target *mesh.Face) {
 	gosigl.BindTexture2D(gosigl.TextureSlot(0), renderer.materialCache.FetchCachedTexture(mat.Textures.Albedo.GetFilePath()))
 
 	if mat.Textures.Normal != nil {
-		opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["normalSampler"], 1)
-		gosigl.BindTexture2D(gosigl.TextureSlot(1), renderer.materialCache.FetchCachedTexture(mat.Textures.Normal.GetFilePath()))
+		//opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["normalSampler"], 1)
+		//gosigl.BindTexture2D(gosigl.TextureSlot(1), renderer.materialCache.FetchCachedTexture(mat.Textures.Normal.GetFilePath()))
 	}
 
 	// Bind lightmap texture if it exists
-	if target.IsLightmapped() {
-		opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["useLightmap"], 0) // lightmaps disabled
-		opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["lightmapTextureSampler"], 2)
-		//target.Lightmap().Bind()
-	} else {
+	//if target.IsLightmapped() {
+	//	opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["useLightmap"], 0) // lightmaps disabled
+	//	opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["lightmapTextureSampler"], 2)
+	//	//target.Lightmap().Bind()
+	//} else {
 		opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["useLightmap"], 0)
-	}
+	//}
 	gosigl.DrawArray(int(target.Offset()), int(target.Length()))
 }
 
