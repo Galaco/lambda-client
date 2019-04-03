@@ -26,8 +26,8 @@ func (cache *Cache) SyncTextureToGpu(dispatched event.IMessage) {
 	}
 
 	cache.mut.Lock()
-	if _, ok := cache.textureIdMap[mat.Textures.Albedo.GetFilePath()]; !ok {
-		cache.textureIdMap[mat.Textures.Albedo.GetFilePath()] = gosigl.CreateTexture2D(
+	if _, ok := cache.textureIdMap[mat.Textures.Albedo.FilePath()]; !ok {
+		cache.textureIdMap[mat.Textures.Albedo.FilePath()] = gosigl.CreateTexture2D(
 			gosigl.TextureSlot(0),
 			mat.Textures.Albedo.Width(),
 			mat.Textures.Albedo.Height(),
@@ -37,8 +37,8 @@ func (cache *Cache) SyncTextureToGpu(dispatched event.IMessage) {
 	}
 
 	if mat.Textures.Normal != nil {
-		if _, ok := cache.textureIdMap[mat.Textures.Normal.GetFilePath()]; !ok {
-			cache.textureIdMap[mat.Textures.Normal.GetFilePath()] = gosigl.CreateTexture2D(
+		if _, ok := cache.textureIdMap[mat.Textures.Normal.FilePath()]; !ok {
+			cache.textureIdMap[mat.Textures.Normal.FilePath()] = gosigl.CreateTexture2D(
 				gosigl.TextureSlot(1),
 				mat.Textures.Normal.Width(),
 				mat.Textures.Normal.Height(),
@@ -54,10 +54,10 @@ func (cache *Cache) DestroyTextureOnGPU(dispatched event.IMessage) {
 	msg := dispatched.(*message.MaterialUnloaded)
 	mat := msg.Resource.(*material.Material)
 	if mat.Textures.Albedo != nil {
-		gosigl.DeleteTextures(cache.textureIdMap[mat.Textures.Albedo.GetFilePath()])
+		gosigl.DeleteTextures(cache.textureIdMap[mat.Textures.Albedo.FilePath()])
 	}
 	if mat.Textures.Normal != nil {
-		gosigl.DeleteTextures(cache.textureIdMap[mat.Textures.Normal.GetFilePath()])
+		gosigl.DeleteTextures(cache.textureIdMap[mat.Textures.Normal.FilePath()])
 	}
 }
 

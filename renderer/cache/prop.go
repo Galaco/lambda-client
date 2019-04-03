@@ -18,7 +18,7 @@ func (c *PropCache) Add(props ...entity.IEntity) {
 	for _, prop := range props {
 		c.cacheList = append(c.cacheList, Entry{
 			Transform: prop.Transform(),
-			Model:     prop.(entity2.IProp).GetModel(),
+			Model:     prop.(entity2.IProp).Model(),
 		})
 	}
 }

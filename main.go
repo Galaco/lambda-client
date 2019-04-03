@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
+	"github.com/galaco/KeyValues"
 	"github.com/galaco/Lambda-Client/behaviour"
 	"github.com/galaco/Lambda-Client/behaviour/controllers"
-	"github.com/galaco/Lambda-Client/config"
+	"github.com/galaco/Lambda-Client/internal/config"
+	"github.com/galaco/Lambda-Client/internal/debug"
 	"github.com/galaco/Lambda-Client/messages"
 	"github.com/galaco/Lambda-Client/renderer"
 	"github.com/galaco/Lambda-Client/scene"
@@ -16,25 +18,23 @@ import (
 	"github.com/galaco/Lambda-Core/core/resource"
 	"github.com/galaco/Lambda-Core/game"
 	"github.com/galaco/Lambda-Core/lib/gameinfo"
-	"os"
 	"runtime"
 )
 
-// Client
-// Client provides a .bsp loading and rendering environment
-// It provides full bsp loading, with props and materials.
-// Visibility data is also used.
 func main() {
 	runtime.LockOSThread()
 
+	//if err := debug.StartProfiling("profile"); err == nil {
+	//	defer debug.StopProfiling()
+	//}
+
 	defer func() {
-		fmt.Println("Place breakpoint here")
 		if recovered := recover(); recovered != nil {
 			fmt.Println("Handled panic:", recovered)
 		}
 	}()
 
-	logger.SetWriter(os.Stdout)
+	logger.SetWriter(debug.NewStdOut())
 	logger.EnablePretty()
 	// Load GameInfo.txt
 	// GameInfo.txt includes fundamental properties about the game
@@ -43,7 +43,7 @@ func main() {
 	if err != nil {
 		logger.Panic(err)
 	}
-	_, err = gameinfo.LoadConfig(cfg.GameDirectory)
+	gameInfo, err := gameinfo.LoadConfig(cfg.GameDirectory)
 	if err != nil {
 		logger.Panic(err)
 	}
@@ -51,9 +51,9 @@ func main() {
 	// Register GameInfo.txt referenced resource paths
 	// Filesystem module needs to know about all the possible resource
 	// locations it can search.
-	fs := filesystem.CreateFilesystemFromGameInfoDefinitions(config.Get().GameDirectory, gameinfo.Get())
+	fs := filesystem.CreateFilesystemFromGameInfoDefinitions(cfg.GameDirectory, gameInfo)
 
-	// Explicity define fallbacks for missing resources
+	// Explicitly define fallbacks for missing resources
 	// Defaults are defined, but if HL2 assets are not readable, then
 	// the default may not be readable
 	resource.Manager().SetErrorModelName("models/props/de_dust/du_antenna_A.mdl")
@@ -64,7 +64,7 @@ func main() {
 	Application.Initialise()
 
 	// Game specific setup
-	gameName := SetGame(&game.CounterstrikeSource{})
+	gameName := SetGame(&game.CounterstrikeSource{}, gameInfo)
 
 	Application.AddManager(&window.Manager{
 		Name: gameName,
@@ -72,10 +72,9 @@ func main() {
 	Application.AddManager(&renderer.Manager{})
 	Application.AddManager(&controllers.Camera{})
 
-	// Register behaviour that needs to exist outside of game simulation & control
 	RegisterShutdownMethod(Application)
 
-	scene.LoadFromFile(config.Get().GameDirectory + config.Get().Map, fs)
+	scene.LoadFromFile(cfg.GameDirectory + cfg.Map, fs)
 
 	// Start
 	Application.SetSimulationSpeed(10)
@@ -85,11 +84,12 @@ func main() {
 }
 
 // SetGame registers game entities and returns game name
-func SetGame(proj game.IGame) string {
+func SetGame(proj game.IGame, gameInfo *keyvalues.KeyValue) string {
 	windowName := "Lambda-Client: A BSP Viewer"
-	gameInfoNode, _ := gameinfo.Get().Find("GameInfo")
+	gameInfoNode, _ := gameInfo.Find("GameInfo")
 	if gameInfoNode == nil {
 		logger.Panic("gameinfo was not found.")
+		return windowName
 	}
 	gameNode, _ := gameInfoNode.Find("game")
 	if gameNode != nil {

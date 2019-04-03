@@ -18,6 +18,8 @@ github.com/galaco/Lambda-Core v0.3.3/go.mod h1:8YbPQyWiqxJTeNGcrbakUnI0WxGlQG+S2
 github.com/galaco/Lambda-Core v0.3.4/go.mod h1:DtGriKyDm42UANK/+o9eH1H194mZXpKWRWxTEkJpjiM=
 github.com/galaco/Lambda-Core v0.4.0 h1:+gWv01jWBIfl2JPcG76o5LJQmb0YXBCKzZEcdyp7COs=
 github.com/galaco/Lambda-Core v0.4.0/go.mod h1:greEV9Pt6Z3DZcr8mB9Kta2l9vMKvlAhBNVYTVbO1J0=
+github.com/galaco/Lambda-Core v0.5.0 h1:bX6tA0bf0mdRsAI3OaKDJPqRSBr+8tHuHQjjikWm2qY=
+github.com/galaco/Lambda-Core v0.5.0/go.mod h1:greEV9Pt6Z3DZcr8mB9Kta2l9vMKvlAhBNVYTVbO1J0=
 github.com/galaco/StudioModel v0.0.0-20181028212841-5b8408bcc2af h1:WvaI49oII83yG2LCseuOuIIbo/f5k5iCDvFwe8W5HPI=
 github.com/galaco/StudioModel v0.0.0-20181028212841-5b8408bcc2af/go.mod h1:TyLwCRckWSsaQhePyfTOwfSXlEUJ411MwYaVkbPwOMo=
 github.com/galaco/StudioModel v0.1.0 h1:TLDYjlx3C1yNfDjV2XI5NW+UayIQexfNBQfF1JJsNTI=

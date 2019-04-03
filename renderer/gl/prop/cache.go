@@ -10,12 +10,12 @@ var ModelIdMap map[string][]*gosigl.VertexObject
 
 func SyncPropToGpu(dispatched event.IMessage) {
 	msg := dispatched.(*message.PropLoaded)
-	if ModelIdMap[msg.Resource.GetFilePath()] != nil {
+	if ModelIdMap[msg.Resource.FilePath()] != nil {
 		return
 	}
-	vals := make([]*gosigl.VertexObject, len(msg.Resource.GetMeshes()))
+	vals := make([]*gosigl.VertexObject, len(msg.Resource.Meshes()))
 
-	for idx, mesh := range msg.Resource.GetMeshes() {
+	for idx, mesh := range msg.Resource.Meshes() {
 		gpuObject := gosigl.NewMesh(mesh.Vertices())
 		gosigl.CreateVertexAttribute(gpuObject, mesh.UVs(), 2)
 		gosigl.CreateVertexAttribute(gpuObject, mesh.Normals(), 3)
@@ -28,12 +28,12 @@ func SyncPropToGpu(dispatched event.IMessage) {
 		gosigl.FinishMesh()
 		vals[idx] = gpuObject
 	}
-	ModelIdMap[msg.Resource.GetFilePath()] = vals
+	ModelIdMap[msg.Resource.FilePath()] = vals
 }
 
 func DestroyPropOnGPU(dispatched event.IMessage) {
 	msg := dispatched.(*message.PropUnloaded)
-	for _, i := range ModelIdMap[msg.Resource.GetFilePath()] {
+	for _, i := range ModelIdMap[msg.Resource.FilePath()] {
 		gosigl.DeleteMesh(i)
 	}
 }
