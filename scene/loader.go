@@ -1,7 +1,7 @@
 package scene
 
 import (
-	"github.com/galaco/Lambda-Client/config"
+	"github.com/galaco/Lambda-Client/internal/config"
 	"github.com/galaco/Lambda-Client/scene/visibility"
 	"github.com/galaco/Lambda-Client/scene/world"
 	"github.com/galaco/Lambda-Core/core/entity"
@@ -58,6 +58,17 @@ func loadWorld(targetScene *Scene, file *bsplib.Bsp, fs filesystem.IFileSystem) 
 			}
 			bspClusters[bspLeaf.Cluster].Id = bspLeaf.Cluster
 			bspClusters[bspLeaf.Cluster].Faces = append(bspClusters[bspLeaf.Cluster].Faces, baseWorldBspFaces[leafFace])
+			bspClusters[bspLeaf.Cluster].Mins = mgl32.Vec3{
+				float32(bspLeaf.Mins[0]),
+				float32(bspLeaf.Mins[1]),
+				float32(bspLeaf.Mins[2]),
+			}
+			bspClusters[bspLeaf.Cluster].Maxs = mgl32.Vec3{
+				float32(bspLeaf.Maxs[0]),
+				float32(bspLeaf.Maxs[1]),
+				float32(bspLeaf.Maxs[2]),
+			}
+			bspClusters[bspLeaf.Cluster].Origin = bspClusters[bspLeaf.Cluster].Maxs.Sub(bspClusters[bspLeaf.Cluster].Mins)
 		}
 	}
 

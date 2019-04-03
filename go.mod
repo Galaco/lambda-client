@@ -1,7 +1,8 @@
 module github.com/galaco/Lambda-Client
 
 require (
-	github.com/galaco/Lambda-Core v0.4.0
+	github.com/galaco/KeyValues v1.3.1
+	github.com/galaco/Lambda-Core v0.5.0
 	github.com/galaco/bsp v0.2.1
 	github.com/galaco/gosigl v0.0.0-20190218114618-7d72bfe172dc
 	github.com/galaco/packrect v0.0.0-20190221114019-d10c60f871c0 // indirect

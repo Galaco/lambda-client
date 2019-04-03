@@ -51,7 +51,7 @@ func (manager *Manager) Update(dt float64) {
 	// Dynamic objects
 	cacheMutex.Lock()
 	for _, entry := range *manager.dynamicPropCache.All() {
-		manager.renderer.DrawModel(entry.Model, entry.Transform.GetTransformationMatrix())
+		manager.renderer.DrawModel(entry.Model, entry.Transform.TransformationMatrix())
 	}
 	cacheMutex.Unlock()
 

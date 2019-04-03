@@ -1,6 +1,8 @@
 package config
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestGet(t *testing.T) {
 	c := Get()
@@ -11,7 +13,7 @@ func TestGet(t *testing.T) {
 }
 
 func TestLoad(t *testing.T) {
-	_, err := Load("./../config.example.json")
+	_, err := Load("./../../config.example.json")
 
 	if err != nil {
 		t.Error(err)

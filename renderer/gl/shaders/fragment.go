@@ -10,42 +10,51 @@ var Fragment = `
 	uniform sampler2D normalSampler;
 	uniform sampler2D lightmapTextureSampler;
 
-
 	in vec2 UV;
-	in vec2 LightmapUV;
+	in vec3 EyeDirection;
+	in vec3 LightDirection;
 
     out vec4 frag_colour;
 
-	// Basetexture
-	// Nothing is renderable without a base texture
-	void AddAlbedo(inout vec4 fragColour, in sampler2D sampler, in vec2 uv) 
+	vec4 GetAlbedo(in sampler2D sampler, in vec2 uv) 
 	{
-		fragColour = texture(sampler, uv).rgba;
+		return texture(sampler, uv).rgba;
 	}
 
-//	vec3 CalculateNormal(in sampler2D sampler, vec2 uv)    // Calculate new normal based off Normal Texture and TBN matrix
-//	{
-//    	vec3 BumpMapNormal = texture(sampler, uv).xyz;
-//    	BumpMapNormal = normalize(BumpMapNormal * 2.0 - 1.0);	// transform coordinates to -1-1 from 0-1
-//    	vec3 NewNormal = normalize(TBN * BumpMapNormal);	// Tangent Space Conversion
-//    	return NewNormal;
-//	}
+	float CalculateNormalFactor(in sampler2D sampler, vec2 uv)
+	{
+		vec3 L = normalize(LightDirection);
+		vec3 N = normalize(texture(sampler, uv).xyz * 2.0 - 1.0);	// transform coordinates to -1-1 from 0-1
+
+		return max(dot(N,L), 0.0);
+	}
+
+	vec4 GetSpecular(in sampler2D normalSampler, vec2 uv) {
+		vec3 N = normalize(texture(normalSampler, uv).xyz * 2.0 - 1.0);	// transform coordinates to -1-1 from 0-1
+		vec3 L = normalize(LightDirection);
+		vec3 R = reflect(-L, N);
+		vec3 V = normalize(EyeDirection);	
+
+		// replace with texture where relevant
+		vec3 specularSample = vec3(1.0);
+
+		return max(pow(dot(R, V), 5.0), 0.0) * vec4(specularSample.xyz, 1.0);
+	}
 
 	// Lightmaps the face
 	// Does nothing if lightmap was not defined
-	void AddLightmap(inout vec4 fragColour, in sampler2D lightmap, in vec2 uv) 
+	vec4 GetLightmap(in sampler2D lightmap, in vec2 uv) 
 	{
-		fragColour = fragColour * texture(lightmap, uv).rgba;
+		return texture(lightmap, uv).rgba;
 	}
 
     void main() 
 	{
-		AddAlbedo(frag_colour, albedoSampler, UV);
+		float bumpFactor = CalculateNormalFactor(normalSampler, UV);
+		vec4 diffuse = GetAlbedo(albedoSampler, UV);
 
-//		bumpNormal = CalculateNormal(normalSampler, UV);
+		vec4 specular = GetSpecular(normalSampler, UV);
 
-		//if (useLightmap == 1) {
-		//	AddLightmap(frag_colour, lightmapTextureSampler, LightmapUV);
-		//}
+		frag_colour = diffuse + specular;
     }
 ` + "\x00"

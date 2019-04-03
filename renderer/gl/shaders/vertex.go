@@ -14,15 +14,37 @@ var Vertex = `
 	layout(location = 3) in vec4 vertexTangent;
 	layout(location = 4) in vec2 lightmapUV;
 
-	// Output data ; will be interpolated for each fragment.
 	out vec2 UV;
-	out vec2 LightmapUV;
+	out vec3 EyeDirection;
+	out vec3 LightDirection;
+	
+	// temporary
+	uniform vec3 lightPos = vec3(0.0, 0.0, 100.0);
+
+	void calculateEyePosition() {
+		// View space vertex position
+		vec4 P = view * model * vec4(vertexPosition, 1.0);
+		// Normal vector
+		vec3 N = normalize(mat3(view * model) * vertexNormal);
+		// Tangent vector
+		vec3 T = normalize(mat3(view * model) * vertexTangent.xyz);
+		// Bitangent vector
+		vec3 B = cross(N, T);
+		// Vector from target to viewer
+		vec3 V = -P.xyz;
+
+		EyeDirection = normalize(vec3(dot(V, T), dot(V, B), dot(V, N)));
+
+		vec3 L = lightPos - P.xyz;
+		LightDirection = normalize(vec3(dot(L, T), dot(L, B), dot(L, N)));
+	}
 
     void main() {
 		gl_Position = projection * view * model * vec4(vertexPosition, 1.0);
 
-    	// UV of the vertex. No special space for this one.
     	UV = vertexUV;
-		LightmapUV = lightmapUV;
+
+		// bump + specular related
+		calculateEyePosition();
     }
 ` + "\x00"

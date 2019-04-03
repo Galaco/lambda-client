@@ -1,6 +1,7 @@
 package gl
 
 import (
+	"github.com/galaco/Lambda-Client/renderer/camera"
 	"github.com/galaco/Lambda-Client/renderer/gl/bsp"
 	material2 "github.com/galaco/Lambda-Client/renderer/gl/material"
 	"github.com/galaco/Lambda-Client/renderer/gl/prop"
@@ -17,6 +18,7 @@ import (
 	"github.com/galaco/gosigl"
 	opengl "github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/mathgl/mgl32"
+	"math"
 )
 
 //OpenGL renderer
@@ -30,10 +32,13 @@ type Renderer struct {
 
 	materialCache *material2.Cache
 
-	matrixes struct {
+	matrices struct {
 		view       mgl32.Mat4
 		projection mgl32.Mat4
 	}
+
+	activeCamera *entity.Camera
+	viewFrustum *camera.Frustum
 }
 
 // LoadShaders Loads shaders and sets necessary constants for opengls state machine
@@ -68,7 +73,7 @@ func (renderer *Renderer) LoadShaders() {
 	}
 	renderer.skyShader.Finalize()
 
-	//matrixes
+	//matrices
 	skyShaderMap := map[string]int32{}
 	skyShaderMap["model"] = renderer.skyShader.GetUniform("model")
 	skyShaderMap["projection"] = renderer.skyShader.GetUniform("projection")
@@ -83,6 +88,7 @@ func (renderer *Renderer) LoadShaders() {
 	lightmappedGenericShaderMap["view"] = renderer.lightmappedGenericShader.GetUniform("view")
 	//material properties
 	lightmappedGenericShaderMap["albedoSampler"] = renderer.lightmappedGenericShader.GetUniform("albedoSampler")
+	lightmappedGenericShaderMap["normalSampler"] = renderer.lightmappedGenericShader.GetUniform("normalSampler")
 	lightmappedGenericShaderMap["useLightmap"] = renderer.lightmappedGenericShader.GetUniform("useLightmap")
 	lightmappedGenericShaderMap["lightmapTextureSampler"] = renderer.lightmappedGenericShader.GetUniform("lightmapTextureSampler")
 	renderer.uniformMap[renderer.lightmappedGenericShader.Id()] = lightmappedGenericShaderMap
@@ -98,22 +104,24 @@ func (renderer *Renderer) LoadShaders() {
 var numCalls = 0
 
 // Called at the start of a frame
-func (renderer *Renderer) StartFrame(camera *entity.Camera) {
-	renderer.matrixes.projection = camera.ProjectionMatrix()
-	renderer.matrixes.view = camera.ViewMatrix()
+func (renderer *Renderer) StartFrame(cam *entity.Camera) {
+	renderer.matrices.projection = cam.ProjectionMatrix()
+	renderer.matrices.view = cam.ViewMatrix()
+	renderer.activeCamera = cam
+	renderer.viewFrustum = camera.FrustumFromCamera(renderer.activeCamera)
 
 	// Sky
 	renderer.skyShader.UseProgram()
 	renderer.setShader(renderer.skyShader.Id())
-	opengl.UniformMatrix4fv(renderer.uniformMap[renderer.skyShader.Id()]["projection"], 1, false, &renderer.matrixes.projection[0])
-	opengl.UniformMatrix4fv(renderer.uniformMap[renderer.skyShader.Id()]["view"], 1, false, &renderer.matrixes.view[0])
+	opengl.UniformMatrix4fv(renderer.uniformMap[renderer.skyShader.Id()]["projection"], 1, false, &renderer.matrices.projection[0])
+	opengl.UniformMatrix4fv(renderer.uniformMap[renderer.skyShader.Id()]["view"], 1, false, &renderer.matrices.view[0])
 
 	renderer.lightmappedGenericShader.UseProgram()
 	renderer.setShader(renderer.lightmappedGenericShader.Id())
 
-	//matrixes
-	opengl.UniformMatrix4fv(renderer.uniformMap[renderer.lightmappedGenericShader.Id()]["projection"], 1, false, &renderer.matrixes.projection[0])
-	opengl.UniformMatrix4fv(renderer.uniformMap[renderer.lightmappedGenericShader.Id()]["view"], 1, false, &renderer.matrixes.view[0])
+	//matrices
+	opengl.UniformMatrix4fv(renderer.uniformMap[renderer.lightmappedGenericShader.Id()]["projection"], 1, false, &renderer.matrices.projection[0])
+	opengl.UniformMatrix4fv(renderer.uniformMap[renderer.lightmappedGenericShader.Id()]["view"], 1, false, &renderer.matrices.view[0])
 
 	gosigl.Clear(gosigl.MaskColourBufferBit, gosigl.MaskDepthBufferBit)
 }
@@ -136,22 +144,41 @@ func (renderer *Renderer) DrawBsp(world *world.World) {
 	modelMatrix := mgl32.Ident4()
 	opengl.UniformMatrix4fv(renderer.uniformMap[renderer.currentShaderId]["model"], 1, false, &modelMatrix[0])
 	gosigl.BindMesh(bsp.MapGPUResource)
-	//renderer.BindMesh(world.Bsp().Mesh())
-	for _, cluster := range world.VisibleClusters() {
+
+	renderClusters := make([]*model.ClusterLeaf, 0)
+
+	for idx, cluster := range world.VisibleClusters() {
+		// test cluster visibility for this frame
+		if !renderer.viewFrustum.IsCuboidInFrustum(cluster.Mins, cluster.Maxs) {
+			continue
+		}
+		renderClusters = append(renderClusters, world.VisibleClusters()[idx])
 		for _, face := range cluster.Faces {
 			renderer.DrawFace(&face)
 		}
 	}
+
+	// Render objects that dont seem to belong to a cluster
 	for _, face := range world.Bsp().DefaultCluster().Faces {
 		renderer.DrawFace(&face)
 	}
-	for _, cluster := range world.VisibleClusters() {
-		for _, prop := range cluster.StaticProps {
-			renderer.DrawModel(prop.GetModel(), prop.Transform().GetTransformationMatrix())
+	for _, cluster := range renderClusters {
+		// This is a performance cheat. We measure from the cluster origin for staticProp fades, rather than staticProp origin
+		distToCluster := float32(math.Sqrt(
+			math.Pow(float64(cluster.Origin.X() - renderer.activeCamera.Transform().Position.X()),2) +
+			math.Pow(float64(cluster.Origin.Y() - renderer.activeCamera.Transform().Position.Y()),2) +
+			math.Pow(float64(cluster.Origin.Z() - renderer.activeCamera.Transform().Position.Z()),2)))
+
+		for _, staticProp := range cluster.StaticProps {
+			//  Skip render if staticProp is fully faded
+			if  staticProp.FadeMaxDistance() > 0 && distToCluster >= staticProp.FadeMaxDistance() {
+				continue
+			}
+			renderer.DrawModel(staticProp.Model(), staticProp.Transform().TransformationMatrix())
 		}
 	}
 	for _, prop := range world.Bsp().DefaultCluster().StaticProps {
-		renderer.DrawModel(prop.GetModel(), prop.Transform().GetTransformationMatrix())
+		renderer.DrawModel(prop.Model(), prop.Transform().TransformationMatrix())
 	}
 }
 
@@ -162,7 +189,7 @@ func (renderer *Renderer) DrawSkybox(sky *world.Sky) {
 	}
 
 	if sky.GetVisibleBsp() != nil {
-		modelMatrix := sky.Transform().GetTransformationMatrix()
+		modelMatrix := sky.Transform().TransformationMatrix()
 		opengl.UniformMatrix4fv(renderer.uniformMap[renderer.currentShaderId]["model"], 1, false, &modelMatrix[0])
 
 		gosigl.BindMesh(bsp.MapGPUResource)
@@ -174,7 +201,7 @@ func (renderer *Renderer) DrawSkybox(sky *world.Sky) {
 		}
 		for _, cluster := range sky.GetClusterLeafs() {
 			for _, prop := range cluster.StaticProps {
-				renderer.DrawModel(prop.GetModel(), prop.Transform().GetTransformationMatrix())
+				renderer.DrawModel(prop.Model(), prop.Transform().TransformationMatrix())
 			}
 		}
 	}
@@ -185,13 +212,13 @@ func (renderer *Renderer) DrawSkybox(sky *world.Sky) {
 // Render a mesh and its submeshes/primitives
 func (renderer *Renderer) DrawModel(model *model.Model, transform mgl32.Mat4) {
 	opengl.UniformMatrix4fv(renderer.uniformMap[renderer.currentShaderId]["model"], 1, false, &transform[0])
-	modelBinding := prop.ModelIdMap[model.GetFilePath()]
+	modelBinding := prop.ModelIdMap[model.FilePath()]
 	if modelBinding == nil {
 		return
 	}
-	for idx, mesh := range model.GetMeshes() {
+	for idx, mesh := range model.Meshes() {
 		// Missing materials will be flat coloured
-		if mesh == nil || mesh.GetMaterial() == nil {
+		if mesh == nil || mesh.Material() == nil {
 			// We need the fallback material
 			continue
 		}
@@ -206,24 +233,24 @@ func (renderer *Renderer) BindMesh(target mesh.IMesh, meshBinding *gosigl.Vertex
 	gosigl.BindMesh(meshBinding)
 	//target.Bind()
 	// $basetexture
-	if target.GetMaterial() != nil {
-		mat := target.GetMaterial().(*material.Material)
+	if target.Material() != nil {
+		mat := target.Material().(*material.Material)
 		opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["albedoSampler"], 0)
-		gosigl.BindTexture2D(gosigl.TextureSlot(0), renderer.materialCache.FetchCachedTexture(mat.Textures.Albedo.GetFilePath()))
+		gosigl.BindTexture2D(gosigl.TextureSlot(0), renderer.materialCache.FetchCachedTexture(mat.Textures.Albedo.FilePath()))
 
 		if mat.Textures.Normal != nil {
 			opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["normalSampler"], 1)
-			gosigl.BindTexture2D(gosigl.TextureSlot(1), renderer.materialCache.FetchCachedTexture(mat.Textures.Normal.GetFilePath()))
+			gosigl.BindTexture2D(gosigl.TextureSlot(1), renderer.materialCache.FetchCachedTexture(mat.Textures.Normal.FilePath()))
 		}
 	}
 	// Bind lightmap texture if it exists
-	if target.GetLightmap() != nil {
-		opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["useLightmap"], 0) // lightmaps disabled
-		opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["lightmapTextureSampler"], 2)
-		//target.GetLightmap().Bind()
-	} else {
+	//if target.GetLightmap() != nil {
+	//	opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["useLightmap"], 0) // lightmaps disabled
+	//	opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["lightmapTextureSampler"], 2)
+	//	//target.GetLightmap().Bind()
+	//} else {
 		opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["useLightmap"], 0)
-	}
+	//}
 }
 
 func (renderer *Renderer) DrawFace(target *mesh.Face) {
@@ -235,21 +262,21 @@ func (renderer *Renderer) DrawFace(target *mesh.Face) {
 	// $basetexture
 	mat := target.Material().(*material.Material)
 	opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["albedoSampler"], 0)
-	gosigl.BindTexture2D(gosigl.TextureSlot(0), renderer.materialCache.FetchCachedTexture(mat.Textures.Albedo.GetFilePath()))
+	gosigl.BindTexture2D(gosigl.TextureSlot(0), renderer.materialCache.FetchCachedTexture(mat.Textures.Albedo.FilePath()))
 
 	if mat.Textures.Normal != nil {
 		opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["normalSampler"], 1)
-		gosigl.BindTexture2D(gosigl.TextureSlot(1), renderer.materialCache.FetchCachedTexture(mat.Textures.Normal.GetFilePath()))
+		gosigl.BindTexture2D(gosigl.TextureSlot(1), renderer.materialCache.FetchCachedTexture(mat.Textures.Normal.FilePath()))
 	}
 
 	// Bind lightmap texture if it exists
-	if target.IsLightmapped() {
-		opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["useLightmap"], 0) // lightmaps disabled
-		opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["lightmapTextureSampler"], 2)
-		//target.Lightmap().Bind()
-	} else {
+	//if target.IsLightmapped() {
+	//	opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["useLightmap"], 0) // lightmaps disabled
+	//	opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["lightmapTextureSampler"], 2)
+	//	//target.Lightmap().Bind()
+	//} else {
 		opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["useLightmap"], 0)
-	}
+	//}
 	gosigl.DrawArray(int(target.Offset()), int(target.Length()))
 }
 
@@ -269,8 +296,8 @@ func (renderer *Renderer) DrawSkyMaterial(skybox *model.Model) {
 
 	renderer.skyShader.UseProgram()
 	renderer.setShader(renderer.skyShader.Id())
-	opengl.UniformMatrix4fv(renderer.uniformMap[renderer.skyShader.Id()]["projection"], 1, false, &renderer.matrixes.projection[0])
-	opengl.UniformMatrix4fv(renderer.uniformMap[renderer.skyShader.Id()]["view"], 1, false, &renderer.matrixes.view[0])
+	opengl.UniformMatrix4fv(renderer.uniformMap[renderer.skyShader.Id()]["projection"], 1, false, &renderer.matrices.projection[0])
+	opengl.UniformMatrix4fv(renderer.uniformMap[renderer.skyShader.Id()]["view"], 1, false, &renderer.matrices.view[0])
 
 	//DRAW
 	//skybox.GetMeshes()[0].Bind()

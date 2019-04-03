@@ -1,7 +1,7 @@
 package window
 
 import (
-	"github.com/galaco/Lambda-Client/config"
+	"github.com/galaco/Lambda-Client/internal/config"
 	"github.com/galaco/Lambda-Client/window/input"
 	"github.com/galaco/Lambda-Client/window/window"
 	"github.com/galaco/Lambda-Core/core"
