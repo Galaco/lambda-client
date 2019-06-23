@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.com/Galaco/lambda-client.svg?branch=master)](https://travis-ci.com/Galaco/lambda-client)
 
 # Lambda Client
-Gource is a game engine written in golang designed that loads Valve's Source Engine projects. Put simply, pointing this projects configuration at
+Lambda Client is a game engine written in golang designed that loads Valve's Source Engine projects. Put simply, pointing this projects configuration at
 a Source Engine game installation directory will allow for loading that targets .bsp maps and contents.
 
 
