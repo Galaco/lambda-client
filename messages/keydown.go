@@ -13,6 +13,7 @@ type KeyDown struct {
 	Key keyboard.Key
 }
 
+// Type returns message type
 func (message *KeyDown) Type() event.MessageType {
 	return TypeKeyDown
 }

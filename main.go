@@ -10,6 +10,7 @@ import (
 	"github.com/galaco/Lambda-Client/messages"
 	"github.com/galaco/Lambda-Client/renderer"
 	"github.com/galaco/Lambda-Client/scene"
+	"github.com/galaco/Lambda-Client/ui/dialogs"
 	"github.com/galaco/Lambda-Client/window"
 	"github.com/galaco/Lambda-Core/core"
 	"github.com/galaco/Lambda-Core/core/event"
@@ -18,6 +19,7 @@ import (
 	"github.com/galaco/Lambda-Core/core/resource"
 	"github.com/galaco/Lambda-Core/game"
 	"github.com/galaco/Lambda-Core/lib/gameinfo"
+	"log"
 	"runtime"
 )
 
@@ -30,7 +32,8 @@ func main() {
 
 	defer func() {
 		if recovered := recover(); recovered != nil {
-			fmt.Println("Handled panic:", recovered)
+			fmt.Println("Caught panic:", recovered)
+			dialogs.ErrorMessage(fmt.Errorf("%s", recovered))
 		}
 	}()
 
@@ -58,6 +61,7 @@ func main() {
 	// the default may not be readable
 	resource.Manager().SetErrorModelName("models/props/de_dust/du_antenna_A.mdl")
 	resource.Manager().SetErrorTextureName("materials/error.vtf")
+	defer resource.Manager().Empty()
 
 	// General engine setup
 	Application := core.NewEngine()
@@ -74,13 +78,18 @@ func main() {
 
 	RegisterShutdownMethod(Application)
 
-	scene.LoadFromFile(cfg.GameDirectory + cfg.Map, fs)
+	sceneName,loadSceneError := dialogs.OpenFile("Valve BSP files", "bsp")
+	if loadSceneError != nil {
+		dialogs.ErrorMessage(loadSceneError)
+		log.Fatal()
+	} else {
+		scene.LoadFromFile(sceneName, fs)
+	}
+
 
 	// Start
 	Application.SetSimulationSpeed(10)
 	Application.Run()
-
-	defer resource.Manager().Empty()
 }
 
 // SetGame registers game entities and returns game name

@@ -16,7 +16,6 @@ type Config struct {
 		Width  int
 		Height int
 	}
-	Map string
 }
 
 // @TODO Implement something nicer than this scoped variable
