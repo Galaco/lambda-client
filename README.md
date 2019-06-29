@@ -1,5 +1,5 @@
-[![GoDoc](https://godoc.org/github.com/Galaco/Lambda-Core?status.svg)](https://godoc.org/github.com/Galaco/Lambda-Core)
-[![Go report card](https://goreportcard.com/badge/github.com/galaco/Lambda-Core)](https://goreportcard.com/badge/github.com/galaco/Lambda-Core)
+[![GoDoc](https://godoc.org/github.com/Galaco/lambda-core?status.svg)](https://godoc.org/github.com/Galaco/lambda-core)
+[![Go report card](https://goreportcard.com/badge/github.com/galaco/lambda-core)](https://goreportcard.com/badge/github.com/galaco/lambda-core)
 [![Build Status](https://travis-ci.com/Galaco/lambda-client.svg?branch=master)](https://travis-ci.com/Galaco/lambda-client)
 
 # Lambda Client

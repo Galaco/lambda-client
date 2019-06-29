@@ -1,18 +1,20 @@
 package messages
 
 import (
-	"github.com/galaco/Lambda-Client/input/keyboard"
-	"github.com/galaco/Lambda-Core/core/event"
+	"github.com/galaco/tinygametools"
 )
 
-const TypeKeyReleased = event.MessageType("KeyReleased")
+const TypeKeyReleased = tinygametools.EventName("KeyReleased")
 
 // KeyReleased event object for key released
 type KeyReleased struct {
-	event.Message
-	Key keyboard.Key
+	Key tinygametools.Key
 }
 
-func (message *KeyReleased) Type() event.MessageType {
+func (message *KeyReleased) Type() tinygametools.EventName {
 	return TypeKeyReleased
+}
+
+func (message *KeyReleased) Message() interface{} {
+	return message.Key
 }

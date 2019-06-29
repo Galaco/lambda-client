@@ -3,7 +3,8 @@ package input
 import (
 	"github.com/galaco/Lambda-Client/input/keyboard"
 	"github.com/galaco/Lambda-Client/messages"
-	"github.com/galaco/Lambda-Core/core/event"
+	"github.com/galaco/lambda-core/event"
+	"github.com/galaco/tinygametools"
 )
 
 // Keyboard key wrapper
@@ -18,7 +19,7 @@ func (keyboard *Keyboard) IsKeyDown(key keyboard.Key) bool {
 
 // CallbackMouseMove Event manager message receiver.
 // Used to catch key events from the window library
-func (keyboard *Keyboard) ReceiveMessage(message event.IMessage) {
+func (keyboard *Keyboard) ReceiveMessage(message tinygametools.Event) {
 	switch message.Type() {
 	case messages.TypeKeyDown:
 		keyboard.keysDown[int(message.(*messages.KeyDown).Key)] = true

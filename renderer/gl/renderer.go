@@ -8,14 +8,14 @@ import (
 	"github.com/galaco/Lambda-Client/renderer/gl/shaders"
 	"github.com/galaco/Lambda-Client/renderer/gl/shaders/sky"
 	"github.com/galaco/Lambda-Client/scene/world"
-	"github.com/galaco/Lambda-Core/core/entity"
-	"github.com/galaco/Lambda-Core/core/event"
-	"github.com/galaco/Lambda-Core/core/logger"
-	"github.com/galaco/Lambda-Core/core/material"
-	"github.com/galaco/Lambda-Core/core/mesh"
-	"github.com/galaco/Lambda-Core/core/model"
-	"github.com/galaco/Lambda-Core/core/resource/message"
 	"github.com/galaco/gosigl"
+	"github.com/galaco/lambda-core/entity"
+	"github.com/galaco/lambda-core/event"
+	"github.com/galaco/lambda-core/lib/util"
+	"github.com/galaco/lambda-core/material"
+	"github.com/galaco/lambda-core/mesh"
+	"github.com/galaco/lambda-core/model"
+	"github.com/galaco/lambda-core/resource/message"
 	opengl "github.com/go-gl/gl/v4.1-core/gl"
 	"github.com/go-gl/mathgl/mgl32"
 	"math"
@@ -38,7 +38,7 @@ type Renderer struct {
 	}
 
 	activeCamera *entity.Camera
-	viewFrustum *camera.Frustum
+	viewFrustum  *camera.Frustum
 }
 
 // LoadShaders Loads shaders and sets necessary constants for opengls state machine
@@ -55,21 +55,21 @@ func (renderer *Renderer) LoadShaders() {
 	renderer.lightmappedGenericShader = gosigl.NewShader()
 	err := renderer.lightmappedGenericShader.AddShader(shaders.Vertex, gosigl.VertexShader)
 	if err != nil {
-		logger.Panic(err)
+		util.Logger().Panic(err)
 	}
 	err = renderer.lightmappedGenericShader.AddShader(shaders.Fragment, gosigl.FragmentShader)
 	if err != nil {
-		logger.Panic(err)
+		util.Logger().Panic(err)
 	}
 	renderer.lightmappedGenericShader.Finalize()
 	renderer.skyShader = gosigl.NewShader()
 	err = renderer.skyShader.AddShader(sky.Vertex, opengl.VERTEX_SHADER)
 	if err != nil {
-		logger.Panic(err)
+		util.Logger().Panic(err)
 	}
 	err = renderer.skyShader.AddShader(sky.Fragment, opengl.FRAGMENT_SHADER)
 	if err != nil {
-		logger.Panic(err)
+		util.Logger().Panic(err)
 	}
 	renderer.skyShader.Finalize()
 
@@ -165,13 +165,13 @@ func (renderer *Renderer) DrawBsp(world *world.World) {
 	for _, cluster := range renderClusters {
 		// This is a performance cheat. We measure from the cluster origin for staticProp fades, rather than staticProp origin
 		distToCluster := float32(math.Sqrt(
-			math.Pow(float64(cluster.Origin.X() - renderer.activeCamera.Transform().Position.X()),2) +
-			math.Pow(float64(cluster.Origin.Y() - renderer.activeCamera.Transform().Position.Y()),2) +
-			math.Pow(float64(cluster.Origin.Z() - renderer.activeCamera.Transform().Position.Z()),2)))
+			math.Pow(float64(cluster.Origin.X()-renderer.activeCamera.Transform().Position.X()), 2) +
+				math.Pow(float64(cluster.Origin.Y()-renderer.activeCamera.Transform().Position.Y()), 2) +
+				math.Pow(float64(cluster.Origin.Z()-renderer.activeCamera.Transform().Position.Z()), 2)))
 
 		for _, staticProp := range cluster.StaticProps {
 			//  Skip render if staticProp is fully faded
-			if  staticProp.FadeMaxDistance() > 0 && distToCluster >= staticProp.FadeMaxDistance() {
+			if staticProp.FadeMaxDistance() > 0 && distToCluster >= staticProp.FadeMaxDistance() {
 				continue
 			}
 			renderer.DrawModel(staticProp.Model(), staticProp.Transform().TransformationMatrix())
@@ -249,7 +249,7 @@ func (renderer *Renderer) BindMesh(target mesh.IMesh, meshBinding *gosigl.Vertex
 	//	opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["lightmapTextureSampler"], 2)
 	//	//target.GetLightmap().Bind()
 	//} else {
-		opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["useLightmap"], 0)
+	opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["useLightmap"], 0)
 	//}
 }
 
@@ -275,7 +275,7 @@ func (renderer *Renderer) DrawFace(target *mesh.Face) {
 	//	opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["lightmapTextureSampler"], 2)
 	//	//target.Lightmap().Bind()
 	//} else {
-		opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["useLightmap"], 0)
+	opengl.Uniform1i(renderer.uniformMap[renderer.currentShaderId]["useLightmap"], 0)
 	//}
 	gosigl.DrawArray(int(target.Offset()), int(target.Length()))
 }
@@ -315,15 +315,6 @@ func (renderer *Renderer) DrawSkyMaterial(skybox *model.Model) {
 	renderer.setShader(renderer.lightmappedGenericShader.Id())
 }
 
-// Change the draw format.
-func (renderer *Renderer) SetWireframeMode(mode bool) {
-	if mode {
-		gosigl.SetVertexDrawMode(opengl.LINES)
-	} else {
-		gosigl.SetVertexDrawMode(gosigl.Triangles)
-	}
-}
-
 func (renderer *Renderer) setShader(shader uint32) {
 	if renderer.currentShaderId != shader {
 		renderer.currentShaderId = shader
@@ -336,9 +327,7 @@ func (renderer *Renderer) Unregister() {
 }
 
 func NewRenderer() *Renderer {
-	r := Renderer{}
-	r.SetWireframeMode(false)
-	r.uniformMap = map[uint32]map[string]int32{}
-
-	return &r
+	return &Renderer{
+		uniformMap: map[uint32]map[string]int32{},
+	}
 }

@@ -1,28 +1,27 @@
 package behaviour
 
 import (
-	"github.com/galaco/Lambda-Client/input/keyboard"
+	"github.com/galaco/Lambda-Client/engine"
 	"github.com/galaco/Lambda-Client/messages"
-	"github.com/galaco/Lambda-Core/core"
-	"github.com/galaco/Lambda-Core/core/event"
+	"github.com/galaco/tinygametools"
 )
 
 // Closeable Simple struct to control engine shutdown utilising the internal event manager
 type Closeable struct {
-	target *core.Engine
+	target *engine.Engine
 }
 
 // CallbackMouseMove function will shutdown the engine
-func (closer Closeable) ReceiveMessage(message event.IMessage) {
+func (closer Closeable) ReceiveMessage(message tinygametools.Event) {
 	if message.Type() == messages.TypeKeyDown {
-		if message.(*messages.KeyDown).Key == keyboard.KeyEscape {
+		if message.(*messages.KeyDown).Key == tinygametools.KeyEscape {
 			// Will shutdown the engine at the end of the current loop
 			closer.target.Close()
 		}
 	}
 }
 
-func NewCloseable(target *core.Engine) *Closeable {
+func NewCloseable(target *engine.Engine) *Closeable {
 	return &Closeable{
 		target: target,
 	}

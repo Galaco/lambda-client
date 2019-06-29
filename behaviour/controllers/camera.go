@@ -1,14 +1,14 @@
 package controllers
 
 import (
+	"github.com/galaco/Lambda-Client/engine"
 	"github.com/galaco/Lambda-Client/input"
 	"github.com/galaco/Lambda-Client/input/keyboard"
 	"github.com/galaco/Lambda-Client/scene"
-	"github.com/galaco/Lambda-Core/core"
 )
 
 type Camera struct {
-	core.Manager
+	engine.Manager
 }
 
 func (controller *Camera) Update(dt float64) {

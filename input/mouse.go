@@ -2,7 +2,8 @@ package input
 
 import (
 	"github.com/galaco/Lambda-Client/messages"
-	"github.com/galaco/Lambda-Core/core/event"
+	"github.com/galaco/lambda-core/event"
+	"github.com/galaco/tinygametools"
 	"github.com/go-gl/mathgl/mgl32"
 )
 
@@ -20,10 +21,10 @@ func (mouse *Mouse) GetCoordinates() mgl32.Vec2 {
 
 // CallbackMouseMove mouse receives updated info from the event queue about
 // mouse interaction
-func (mouse *Mouse) CallbackMouseMove(message event.IMessage) {
+func (mouse *Mouse) CallbackMouseMove(message tinygametools.Event) {
 	msg := message.(*messages.MouseMove)
-	mouse.change[0] = float32(msg.X)
-	mouse.change[1] = float32(msg.Y)
+	mouse.change[0] = float32(msg.XY[0])
+	mouse.change[1] = float32(msg.XY[1])
 }
 
 // Update The Mouse should be reset to screen center

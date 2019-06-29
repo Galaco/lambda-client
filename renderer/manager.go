@@ -1,19 +1,24 @@
 package renderer
 
 import (
-	"github.com/galaco/Lambda-Client/input"
-	"github.com/galaco/Lambda-Client/input/keyboard"
+	"github.com/galaco/Lambda-Client/engine"
 	"github.com/galaco/Lambda-Client/renderer/cache"
 	"github.com/galaco/Lambda-Client/renderer/gl"
+	"github.com/galaco/Lambda-Client/renderer/ui"
 	"github.com/galaco/Lambda-Client/scene"
-	"github.com/galaco/Lambda-Core/core"
+	"github.com/galaco/lambda-core/vgui"
+	"github.com/galaco/tinygametools"
 	"strings"
 	"sync"
 )
 
 type Manager struct {
-	core.Manager
-	renderer IRenderer
+	engine.Manager
+
+	window *tinygametools.Window
+
+	renderer   IRenderer
+	uiRenderer ui.Renderer
 
 	dynamicPropCache cache.PropCache
 }
@@ -24,6 +29,8 @@ func (manager *Manager) Register() {
 	manager.renderer = gl.NewRenderer()
 
 	manager.renderer.LoadShaders()
+
+	//manager.uiRenderer.InitRenderContext(manager.window)
 }
 
 func (manager *Manager) Update(dt float64) {
@@ -33,7 +40,6 @@ func (manager *Manager) Update(dt float64) {
 		manager.RecacheEntities(currentScene)
 	}
 
-	manager.updateRendererProperties()
 	currentScene.CurrentCamera().Update(dt)
 	currentScene.GetWorld().TestVisibility(currentScene.CurrentCamera().Transform().Position)
 
@@ -55,11 +61,13 @@ func (manager *Manager) Update(dt float64) {
 	}
 	cacheMutex.Unlock()
 
+	//manager.uiRenderer.DrawUI()
+
 	manager.renderer.EndFrame()
 }
 
-func (manager *Manager) updateRendererProperties() {
-	manager.renderer.SetWireframeMode(input.GetKeyboard().IsKeyDown(keyboard.KeyX))
+func (manager *Manager) SetUIMasterPanel(panel *vgui.MasterPanel) {
+	manager.uiRenderer.SetMasterPanel(panel)
 }
 
 func (manager *Manager) RecacheEntities(scene *scene.Scene) {
@@ -82,4 +90,10 @@ func (manager *Manager) RecacheEntities(scene *scene.Scene) {
 		manager.dynamicPropCache = *c
 		cacheMutex.Unlock()
 	}()
+}
+
+func NewRenderManager(win *tinygametools.Window) *Manager {
+	return &Manager{
+		window: win,
+	}
 }

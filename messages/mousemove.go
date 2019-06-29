@@ -1,18 +1,20 @@
 package messages
 
 import (
-	"github.com/galaco/Lambda-Core/core/event"
+	"github.com/galaco/tinygametools"
 )
 
-const TypeMouseMove = event.MessageType("MouseMove")
+const TypeMouseMove = tinygametools.EventName("MouseMove")
 
 // MouseMove event object for when mouse is moved
 type MouseMove struct {
-	event.Message
-	X float64
-	Y float64
+	XY [2]float64
 }
 
-func (message *MouseMove) Type() event.MessageType {
+func (message *MouseMove) Type() tinygametools.EventName {
 	return TypeMouseMove
+}
+
+func (message *MouseMove) Message() interface{} {
+	return message.XY
 }

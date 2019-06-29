@@ -4,14 +4,14 @@ import (
 	"github.com/galaco/Lambda-Client/internal/config"
 	"github.com/galaco/Lambda-Client/scene/visibility"
 	"github.com/galaco/Lambda-Client/scene/world"
-	"github.com/galaco/Lambda-Core/core/entity"
-	"github.com/galaco/Lambda-Core/core/filesystem"
-	"github.com/galaco/Lambda-Core/core/loader"
-	entity2 "github.com/galaco/Lambda-Core/core/loader/entity"
-	"github.com/galaco/Lambda-Core/core/logger"
-	"github.com/galaco/Lambda-Core/core/model"
 	bsplib "github.com/galaco/bsp"
 	"github.com/galaco/bsp/lumps"
+	"github.com/galaco/lambda-core/entity"
+	"github.com/galaco/lambda-core/filesystem"
+	"github.com/galaco/lambda-core/lib/util"
+	"github.com/galaco/lambda-core/loader"
+	entity2 "github.com/galaco/lambda-core/loader/entity"
+	"github.com/galaco/lambda-core/model"
 	entitylib "github.com/galaco/source-tools-common/entity"
 	"github.com/go-gl/mathgl/mgl32"
 )
@@ -21,10 +21,10 @@ func LoadFromFile(fileName string, fs filesystem.IFileSystem) {
 
 	bspData, err := bsplib.ReadFromFile(fileName)
 	if err != nil {
-		logger.Panic(err)
+		util.Logger().Panic(err)
 	}
 	if bspData.Header().Version < 19 {
-		logger.Panic("Unsupported BSP Version. Exiting...")
+		util.Logger().Panic("Unsupported BSP Version. Exiting...")
 	}
 
 	//Set pakfile for filesystem
@@ -97,10 +97,10 @@ func loadWorld(targetScene *Scene, file *bsplib.Bsp, fs filesystem.IFileSystem) 
 func loadEntities(targetScene *Scene, entdata *lumps.EntData, fs filesystem.IFileSystem) {
 	vmfEntityTree, err := entity2.ParseEntities(entdata.GetData())
 	if err != nil {
-		logger.Panic(err)
+		util.Logger().Panic(err)
 	}
 	entityList := entitylib.FromVmfNodeTree(vmfEntityTree.Unclassified)
-	logger.Notice("Found %d entities\n", entityList.Length())
+	util.Logger().Notice("Found %d entities\n", entityList.Length())
 	for i := 0; i < entityList.Length(); i++ {
 		targetScene.AddEntity(entity2.CreateEntity(entityList.Get(i), fs))
 	}

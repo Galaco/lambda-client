@@ -1,10 +1,8 @@
 package window
 
 import (
-	"github.com/galaco/Lambda-Client/internal/config"
-	"github.com/galaco/Lambda-Client/window/input"
-	"github.com/galaco/Lambda-Client/window/window"
-	"github.com/galaco/Lambda-Core/core"
+	"github.com/galaco/Lambda-Client/engine"
+	"github.com/galaco/tinygametools"
 	"github.com/go-gl/glfw/v3.2/glfw"
 )
 
@@ -13,27 +11,22 @@ import (
 // This manager provides a window that a rendering context can be
 // obtained from, and device input handling.
 type Manager struct {
-	core.Manager
-	window *glfw.Window
-	input  input.Manager
+	engine.Manager
+	window *tinygametools.Window
 
 	Name string
 }
 
 // Register will create a new Window
 func (manager *Manager) Register() {
-	manager.window = window.Create(config.Get().Video.Width, config.Get().Video.Height, manager.Name)
-	manager.input.Register(manager.window)
 }
 
 // Update simply calls the input manager that uses this window
 func (manager *Manager) Update(dt float64) {
-	manager.input.Update(0)
 }
 
 // Unregister will end input listening and kill any window
 func (manager *Manager) Unregister() {
-	manager.input.Unregister()
 	glfw.Terminate()
 }
 
@@ -41,6 +34,12 @@ func (manager *Manager) Unregister() {
 // In this case it simply SwapBuffers the window, (to display updated window
 // contents)
 func (manager *Manager) PostUpdate() {
-	manager.input.PostUpdate()
-	manager.window.SwapBuffers()
+	manager.window.Handle().SwapBuffers()
+}
+
+// NewWindowManager
+func NewWindowManager(win *tinygametools.Window) *Manager {
+	return &Manager{
+		window: win,
+	}
 }

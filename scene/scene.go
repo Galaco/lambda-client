@@ -2,8 +2,8 @@ package scene
 
 import (
 	"github.com/galaco/Lambda-Client/scene/world"
-	"github.com/galaco/Lambda-Core/core/entity"
-	"github.com/galaco/Lambda-Core/core/texture"
+	"github.com/galaco/lambda-core/entity"
+	"github.com/galaco/lambda-core/texture"
 )
 
 type Scene struct {

@@ -1,18 +1,20 @@
 package messages
 
 import (
-	"github.com/galaco/Lambda-Client/input/keyboard"
-	"github.com/galaco/Lambda-Core/core/event"
+	"github.com/galaco/tinygametools"
 )
 
-const TypeKeyHeld = event.MessageType("KeyHeld")
+const TypeKeyHeld = tinygametools.EventName("KeyHeld")
 
 // KeyHeld event object for when key is held down
 type KeyHeld struct {
-	event.Message
-	Key keyboard.Key
+	Key tinygametools.Key
 }
 
-func (message *KeyHeld) Type() event.MessageType {
+func (message *KeyHeld) Type() tinygametools.EventName {
 	return TypeKeyHeld
+}
+
+func (message *KeyHeld) Message() interface{} {
+	return message.Key
 }
