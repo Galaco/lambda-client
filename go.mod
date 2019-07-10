@@ -1,18 +1,16 @@
-module github.com/galaco/Lambda-Client
-
-replace github.com/galaco/lambda-core => ../lambda-core
+module github.com/galaco/lambda-client
 
 require (
 	github.com/galaco/KeyValues v1.3.1
 	github.com/galaco/bsp v0.2.1
 	github.com/galaco/gosigl v0.0.0-20190218114618-7d72bfe172dc
-	github.com/galaco/lambda-core v0.5.0
+	github.com/galaco/lambda-core v1.0.0
 	github.com/galaco/packrect v0.0.0-20190221114019-d10c60f871c0 // indirect
 	github.com/galaco/source-tools-common v0.1.0
 	github.com/galaco/tinygametools v0.0.0-20190628130855-0eeabd5f3aa2
 	github.com/go-gl/gl v0.0.0-20190320195200-bf2b1f2f34d7
 	github.com/go-gl/glfw v0.0.0-20190409004039-e6da0acd62b1
-	github.com/go-gl/mathgl v0.0.0-20190416160123-c4601bc793c7
+	github.com/go-gl/mathgl v0.0.0-20190416164826-c4601bc793c7
 	github.com/inkyblackness/imgui-go v1.9.0
 	github.com/mattn/go-gtk v0.0.0-20190405072524-4deadb416788 // indirect
 	github.com/mattn/go-pointer v0.0.0-20180825124634-49522c3f3791 // indirect

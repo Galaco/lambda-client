@@ -1,10 +1,10 @@
 package input
 
 import (
-	"github.com/galaco/Lambda-Client/engine"
-	"github.com/galaco/Lambda-Client/event"
-	"github.com/galaco/Lambda-Client/input/keyboard"
-	"github.com/galaco/Lambda-Client/messages"
+	"github.com/galaco/lambda-client/engine"
+	"github.com/galaco/lambda-client/event"
+	"github.com/galaco/lambda-client/input/keyboard"
+	"github.com/galaco/lambda-client/messages"
 	"github.com/galaco/tinygametools"
 	"github.com/go-gl/glfw/v3.2/glfw"
 	"github.com/go-gl/mathgl/mgl64"
@@ -30,9 +30,9 @@ func (manager *Manager) Register() {
 	manager.keyboard.RegisterCallbacks(manager.window)
 	manager.mouse.RegisterCallbacks(manager.window)
 
-	event.Dispatcher().Subscribe(messages.TypeKeyDown, GetKeyboard().ReceiveMessage, GetKeyboard())
-	event.Dispatcher().Subscribe(messages.TypeKeyReleased, GetKeyboard().ReceiveMessage, GetKeyboard())
-	event.Dispatcher().Subscribe(messages.TypeMouseMove, GetMouse().CallbackMouseMove, GetMouse())
+	_ = event.Dispatcher().Subscribe(messages.TypeKeyDown, GetKeyboard().ReceiveMessage, GetKeyboard())
+	_ = event.Dispatcher().Subscribe(messages.TypeKeyReleased, GetKeyboard().ReceiveMessage, GetKeyboard())
+	_ = event.Dispatcher().Subscribe(messages.TypeMouseMove, GetMouse().CallbackMouseMove, GetMouse())
 }
 
 // Update prepares data constructs that represent mouse & keyboard state with
@@ -65,11 +65,11 @@ func (manager *Manager) Unregister() {
 func (manager *Manager) KeyCallback(window *glfw.Window, key glfw.Key, scancode int, action glfw.Action, mods glfw.ModifierKey) {
 	switch action {
 	case glfw.Press:
-		event.Dispatcher().Publish(&messages.KeyDown{Key: tinygametools.Key(key)})
+		_ = event.Dispatcher().Publish(&messages.KeyDown{Key: tinygametools.Key(key)})
 	case glfw.Repeat:
-		event.Dispatcher().Publish(&messages.KeyHeld{Key: tinygametools.Key(key)})
+		_ = event.Dispatcher().Publish(&messages.KeyHeld{Key: tinygametools.Key(key)})
 	case glfw.Release:
-		event.Dispatcher().Publish(&messages.KeyReleased{Key: tinygametools.Key(key)})
+		_ = event.Dispatcher().Publish(&messages.KeyReleased{Key: tinygametools.Key(key)})
 	}
 }
 
@@ -78,7 +78,7 @@ func (manager *Manager) MouseCallback(window *glfw.Window, xpos float64, ypos fl
 	if manager.lockMouse {
 		manager.MouseCoordinates[0], manager.MouseCoordinates[1] = window.GetCursorPos()
 		w, h := window.GetSize()
-		event.Dispatcher().Publish(&messages.MouseMove{
+		_ = event.Dispatcher().Publish(&messages.MouseMove{
 			XY: [2]float64{
 				float64(float64(w/2) - manager.MouseCoordinates[0]),
 				float64(float64(h/2) - manager.MouseCoordinates[1]),

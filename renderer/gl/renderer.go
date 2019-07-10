@@ -1,14 +1,14 @@
 package gl
 
 import (
-	"github.com/galaco/Lambda-Client/renderer/camera"
-	"github.com/galaco/Lambda-Client/renderer/gl/bsp"
-	material2 "github.com/galaco/Lambda-Client/renderer/gl/material"
-	"github.com/galaco/Lambda-Client/renderer/gl/prop"
-	"github.com/galaco/Lambda-Client/renderer/gl/shaders"
-	"github.com/galaco/Lambda-Client/renderer/gl/shaders/sky"
-	"github.com/galaco/Lambda-Client/scene/world"
 	"github.com/galaco/gosigl"
+	"github.com/galaco/lambda-client/renderer/camera"
+	"github.com/galaco/lambda-client/renderer/gl/bsp"
+	material2 "github.com/galaco/lambda-client/renderer/gl/material"
+	"github.com/galaco/lambda-client/renderer/gl/prop"
+	"github.com/galaco/lambda-client/renderer/gl/shaders"
+	"github.com/galaco/lambda-client/renderer/gl/shaders/sky"
+	"github.com/galaco/lambda-client/scene/world"
 	"github.com/galaco/lambda-core/entity"
 	"github.com/galaco/lambda-core/event"
 	"github.com/galaco/lambda-core/lib/util"

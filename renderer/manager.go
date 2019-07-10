@@ -1,11 +1,11 @@
 package renderer
 
 import (
-	"github.com/galaco/Lambda-Client/engine"
-	"github.com/galaco/Lambda-Client/renderer/cache"
-	"github.com/galaco/Lambda-Client/renderer/gl"
-	"github.com/galaco/Lambda-Client/renderer/ui"
-	"github.com/galaco/Lambda-Client/scene"
+	"github.com/galaco/lambda-client/engine"
+	"github.com/galaco/lambda-client/renderer/cache"
+	"github.com/galaco/lambda-client/renderer/gl"
+	"github.com/galaco/lambda-client/renderer/ui"
+	"github.com/galaco/lambda-client/scene"
 	"github.com/galaco/lambda-core/vgui"
 	"github.com/galaco/tinygametools"
 	"strings"

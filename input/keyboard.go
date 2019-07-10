@@ -1,8 +1,8 @@
 package input
 
 import (
-	"github.com/galaco/Lambda-Client/input/keyboard"
-	"github.com/galaco/Lambda-Client/messages"
+	"github.com/galaco/lambda-client/input/keyboard"
+	"github.com/galaco/lambda-client/messages"
 	"github.com/galaco/lambda-core/event"
 	"github.com/galaco/tinygametools"
 )

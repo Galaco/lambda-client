@@ -1,8 +1,8 @@
 package behaviour
 
 import (
-	"github.com/galaco/Lambda-Client/engine"
-	"github.com/galaco/Lambda-Client/messages"
+	"github.com/galaco/lambda-client/engine"
+	"github.com/galaco/lambda-client/messages"
 	"github.com/galaco/tinygametools"
 )
 

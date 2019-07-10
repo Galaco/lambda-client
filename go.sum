@@ -43,6 +43,8 @@ github.com/galaco/lambda-core v0.4.0 h1:+gWv01jWBIfl2JPcG76o5LJQmb0YXBCKzZEcdyp7
 github.com/galaco/lambda-core v0.4.0/go.mod h1:greEV9Pt6Z3DZcr8mB9Kta2l9vMKvlAhBNVYTVbO1J0=
 github.com/galaco/lambda-core v0.5.0 h1:bX6tA0bf0mdRsAI3OaKDJPqRSBr+8tHuHQjjikWm2qY=
 github.com/galaco/lambda-core v0.5.0/go.mod h1:greEV9Pt6Z3DZcr8mB9Kta2l9vMKvlAhBNVYTVbO1J0=
+github.com/galaco/lambda-core v1.0.0 h1:xbOt6bOfPTBUROqJSs2aknxWKjvYfbXcdu2FEny8AbI=
+github.com/galaco/lambda-core v1.0.0/go.mod h1:Xlq8ezyCtP40EnOoltlYt/VxtyQb0ycpolgRIILlCHo=
 github.com/galaco/loggy v0.0.0-20190629005848-af043014a903 h1:AqLxGU6ynMSX0EneOsa5wE2EizsN0gRPVIZZSUYiGfk=
 github.com/galaco/loggy v0.0.0-20190629005848-af043014a903/go.mod h1:MCpME2n8JUMLql/kF69GPXQKkJciiNTBI/otWCkTjw8=
 github.com/galaco/packrect v0.0.0-20190106134957-d6cd1e9d06f9 h1:olmG0U3mzsfWrBkGjllQraRq8iuFaoqDoAJjXNoai2E=
@@ -89,6 +91,8 @@ github.com/go-gl/mathgl v0.0.0-20180804195959-cdf14b6b8f8a h1:2n5w2v3knlspzjJWyQ
 github.com/go-gl/mathgl v0.0.0-20180804195959-cdf14b6b8f8a/go.mod h1:dvrdneKbyWbK2skTda0nM4B9zSlS2GZSnjX7itr/skQ=
 github.com/go-gl/mathgl v0.0.0-20190416160123-c4601bc793c7 h1:THttjeRn1iiz69E875U6gAik8KTWk/JYAHoSVpUxBBI=
 github.com/go-gl/mathgl v0.0.0-20190416160123-c4601bc793c7/go.mod h1:yhpkQzEiH9yPyxDUGzkmgScbaBVlhC06qodikEM0ZwQ=
+github.com/go-gl/mathgl v0.0.0-20190416164826-c4601bc793c7 h1:6i1YEhW0TCu4DxH3628qiRtvlXFFDTUp8HQwz7JPpCo=
+github.com/go-gl/mathgl v0.0.0-20190416164826-c4601bc793c7/go.mod h1:yhpkQzEiH9yPyxDUGzkmgScbaBVlhC06qodikEM0ZwQ=
 github.com/inkyblackness/imgui-go v1.9.0 h1:T33ALLCA+HUdVMg8naJ9ZR0WR4NRW5Cg2hQvo1ajKss=
 github.com/inkyblackness/imgui-go v1.9.0/go.mod h1:Mki1fp0SBQ0dq2wkAPKjI3Zod0fgpEFsPM9cGUoCNi8=
 github.com/logrusorgru/aurora v0.0.0-20181002194514-a7b3b318ed4e h1:9MlwzLdW7QSDrhDjFlsEYmxpFyIoXmYRon3dt0io31k=

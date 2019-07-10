@@ -1,7 +1,7 @@
 package ui
 
 import (
-	"github.com/galaco/Lambda-Client/engine"
+	"github.com/galaco/lambda-client/engine"
 	"github.com/galaco/lambda-core/filesystem"
 	vguiCore "github.com/galaco/lambda-core/loader/vgui"
 	"github.com/galaco/lambda-core/vgui"

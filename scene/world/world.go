@@ -1,8 +1,8 @@
 package world
 
 import (
-	"github.com/galaco/Lambda-Client/scene/visibility"
 	"github.com/galaco/bsp/primitives/leaf"
+	"github.com/galaco/lambda-client/scene/visibility"
 	"github.com/galaco/lambda-core/entity"
 	"github.com/galaco/lambda-core/mesh"
 	"github.com/galaco/lambda-core/model"

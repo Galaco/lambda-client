@@ -1,10 +1,10 @@
 package controllers
 
 import (
-	"github.com/galaco/Lambda-Client/engine"
-	"github.com/galaco/Lambda-Client/input"
-	"github.com/galaco/Lambda-Client/input/keyboard"
-	"github.com/galaco/Lambda-Client/scene"
+	"github.com/galaco/lambda-client/engine"
+	"github.com/galaco/lambda-client/input"
+	"github.com/galaco/lambda-client/input/keyboard"
+	"github.com/galaco/lambda-client/scene"
 )
 
 type Camera struct {

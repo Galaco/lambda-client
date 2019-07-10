@@ -3,18 +3,18 @@ package main
 import (
 	"fmt"
 	"github.com/galaco/KeyValues"
-	"github.com/galaco/Lambda-Client/behaviour"
-	"github.com/galaco/Lambda-Client/behaviour/controllers"
-	"github.com/galaco/Lambda-Client/engine"
-	"github.com/galaco/Lambda-Client/event"
-	"github.com/galaco/Lambda-Client/input"
-	"github.com/galaco/Lambda-Client/internal/config"
-	"github.com/galaco/Lambda-Client/internal/debug"
-	"github.com/galaco/Lambda-Client/messages"
-	"github.com/galaco/Lambda-Client/renderer"
-	"github.com/galaco/Lambda-Client/scene"
-	"github.com/galaco/Lambda-Client/ui/dialogs"
-	"github.com/galaco/Lambda-Client/window"
+	"github.com/galaco/lambda-client/behaviour"
+	"github.com/galaco/lambda-client/behaviour/controllers"
+	"github.com/galaco/lambda-client/engine"
+	"github.com/galaco/lambda-client/event"
+	"github.com/galaco/lambda-client/input"
+	"github.com/galaco/lambda-client/internal/config"
+	"github.com/galaco/lambda-client/internal/debug"
+	"github.com/galaco/lambda-client/messages"
+	"github.com/galaco/lambda-client/renderer"
+	"github.com/galaco/lambda-client/scene"
+	"github.com/galaco/lambda-client/ui/dialogs"
+	"github.com/galaco/lambda-client/window"
 	"github.com/galaco/lambda-core/filesystem"
 	"github.com/galaco/lambda-core/game"
 	"github.com/galaco/lambda-core/lib/gameinfo"
@@ -114,7 +114,7 @@ func main() {
 
 // SetGame registers game entities and returns game name
 func SetGame(proj game.IGame, gameInfo *keyvalues.KeyValue) string {
-	windowName := "Lambda-Client: A BSP Viewer"
+	windowName := "lambda-client: A BSP Viewer"
 	gameInfoNode, _ := gameInfo.Find("GameInfo")
 	if gameInfoNode == nil {
 		util.Logger().Panic("gameinfo was not found.")
@@ -132,5 +132,5 @@ func SetGame(proj game.IGame, gameInfo *keyvalues.KeyValue) string {
 
 // RegisterShutdownMethod Implements a way of shutting down the engine
 func RegisterShutdownMethod(app *engine.Engine) {
-	event.Dispatcher().Subscribe(messages.TypeKeyDown, behaviour.NewCloseable(app).ReceiveMessage, app)
+	_ = event.Dispatcher().Subscribe(messages.TypeKeyDown, behaviour.NewCloseable(app).ReceiveMessage, app)
 }

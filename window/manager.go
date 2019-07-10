@@ -1,7 +1,7 @@
 package window
 
 import (
-	"github.com/galaco/Lambda-Client/engine"
+	"github.com/galaco/lambda-client/engine"
 	"github.com/galaco/tinygametools"
 	"github.com/go-gl/glfw/v3.2/glfw"
 )
