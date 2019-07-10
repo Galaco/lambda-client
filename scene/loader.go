@@ -1,11 +1,11 @@
 package scene
 
 import (
-	"github.com/galaco/Lambda-Client/internal/config"
-	"github.com/galaco/Lambda-Client/scene/visibility"
-	"github.com/galaco/Lambda-Client/scene/world"
 	bsplib "github.com/galaco/bsp"
 	"github.com/galaco/bsp/lumps"
+	"github.com/galaco/lambda-client/internal/config"
+	"github.com/galaco/lambda-client/scene/visibility"
+	"github.com/galaco/lambda-client/scene/world"
 	"github.com/galaco/lambda-core/entity"
 	"github.com/galaco/lambda-core/filesystem"
 	"github.com/galaco/lambda-core/lib/util"

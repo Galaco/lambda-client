@@ -1,6 +1,8 @@
-[![GoDoc](https://godoc.org/github.com/Galaco/lambda-core?status.svg)](https://godoc.org/github.com/Galaco/lambda-core)
-[![Go report card](https://goreportcard.com/badge/github.com/galaco/lambda-core)](https://goreportcard.com/badge/github.com/galaco/lambda-core)
-[![Build Status](https://travis-ci.com/Galaco/lambda-client.svg?branch=master)](https://travis-ci.com/Galaco/lambda-client)
+[![GoDoc](https://godoc.org/github.com/Galaco/lambda-client?status.svg)](https://godoc.org/github.com/Galaco/lambda-client)
+[![Go report card](https://goreportcard.com/badge/github.com/galaco/lambda-client)](https://goreportcard.com/badge/github.com/galaco/lambda-client)
+[![GolangCI](https://golangci.com/badges/github.com/galaco/lambda-client.svg)](https://golangci.com)
+[![codecov](https://codecov.io/gh/Galaco/lambda-client/branch/master/graph/badge.svg)](https://codecov.io/gh/Galaco/lambda-client)
+[![CircleCI](https://circleci.com/gh/Galaco/lambda-client.svg?style=svg)](https://circleci.com/gh/Galaco/lambda-client)
 
 # Lambda Client
 Lambda Client is a game engine written in golang designed that loads Valve's Source Engine projects. Put simply, pointing this projects configuration at
@@ -17,7 +19,7 @@ You can build this right now, and, assuming you set the configuration to point t
 * Basic entdata loading (dynamic and physics props)
 
 ##### Counterstrike: Source de_dust2.bsp
-![de_dust2](https://raw.githubusercontent.com/Galaco/lambda-client/master/Documents/de_dust2.jpg)
+![de_dust2](https://raw.githubusercontent.com/Galaco/lambda-client/master/docs/de_dust2.jpg)
 
 
 ## What will this do?
@@ -46,4 +48,4 @@ materials per prop, mdl data not fully loaded, and likely more
 
 #### Additional examples
 ##### Counterstrike: Source ze_FFVII_Mako_Reactor_v5_3.bsp
-![de_dust2](https://raw.githubusercontent.com/Galaco/lambda-client/master/Documents/ze_FFVII_Mako_Reactor_v5_3.jpg)
+![de_dust2](https://raw.githubusercontent.com/Galaco/lambda-client/master/docs/ze_FFVII_Mako_Reactor_v5_3.jpg)

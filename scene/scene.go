@@ -1,7 +1,7 @@
 package scene
 
 import (
-	"github.com/galaco/Lambda-Client/scene/world"
+	"github.com/galaco/lambda-client/scene/world"
 	"github.com/galaco/lambda-core/entity"
 	"github.com/galaco/lambda-core/texture"
 )

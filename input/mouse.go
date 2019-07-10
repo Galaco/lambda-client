@@ -1,7 +1,7 @@
 package input
 
 import (
-	"github.com/galaco/Lambda-Client/messages"
+	"github.com/galaco/lambda-client/messages"
 	"github.com/galaco/lambda-core/event"
 	"github.com/galaco/tinygametools"
 	"github.com/go-gl/mathgl/mgl32"
