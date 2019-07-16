@@ -10,7 +10,7 @@ require (
 	github.com/galaco/tinygametools v0.0.0-20190628130855-0eeabd5f3aa2
 	github.com/go-gl/gl v0.0.0-20190320195200-bf2b1f2f34d7
 	github.com/go-gl/glfw v0.0.0-20190409004039-e6da0acd62b1
-	github.com/go-gl/mathgl v0.0.0-20190416164826-c4601bc793c7
+	github.com/go-gl/mathgl v0.0.0-20190713203922-592312d8590a
 	github.com/inkyblackness/imgui-go v1.9.0
 	github.com/mattn/go-gtk v0.0.0-20190405072524-4deadb416788 // indirect
 	github.com/mattn/go-pointer v0.0.0-20180825124634-49522c3f3791 // indirect
