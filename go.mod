@@ -15,7 +15,7 @@ require (
 	github.com/mattn/go-gtk v0.0.0-20190405072524-4deadb416788 // indirect
 	github.com/mattn/go-pointer v0.0.0-20180825124634-49522c3f3791 // indirect
 	github.com/skelterjohn/go.wde v0.0.0-20190318181201-adc3f78cdb45 // indirect
-	github.com/sqweek/dialog v0.0.0-20190609154315-3cf53be95497
+	github.com/sqweek/dialog v0.0.0-20190728103913-6254ed5b0d3c
 	github.com/stretchr/objx v0.2.0 // indirect
 	github.com/vulkan-go/glfw v0.0.0-20190520160600-32f33e359ff2
 	golang.org/x/crypto v0.0.0-20190621222207-cc06ce4a13d4 // indirect
