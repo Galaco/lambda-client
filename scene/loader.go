@@ -3,15 +3,15 @@ package scene
 import (
 	bsplib "github.com/galaco/bsp"
 	"github.com/galaco/bsp/lumps"
+	"github.com/galaco/lambda-client/core/entity"
+	"github.com/galaco/lambda-client/core/filesystem"
+	"github.com/galaco/lambda-client/core/lib/util"
+	"github.com/galaco/lambda-client/core/loader"
+	entity2 "github.com/galaco/lambda-client/core/loader/entity"
+	"github.com/galaco/lambda-client/core/model"
 	"github.com/galaco/lambda-client/internal/config"
 	"github.com/galaco/lambda-client/scene/visibility"
 	"github.com/galaco/lambda-client/scene/world"
-	"github.com/galaco/lambda-core/entity"
-	"github.com/galaco/lambda-core/filesystem"
-	"github.com/galaco/lambda-core/lib/util"
-	"github.com/galaco/lambda-core/loader"
-	entity2 "github.com/galaco/lambda-core/loader/entity"
-	"github.com/galaco/lambda-core/model"
 	entitylib "github.com/galaco/source-tools-common/entity"
 	"github.com/go-gl/mathgl/mgl32"
 )
@@ -68,7 +68,7 @@ func loadWorld(targetScene *Scene, file *bsplib.Bsp, fs filesystem.IFileSystem) 
 				float32(bspLeaf.Maxs[1]),
 				float32(bspLeaf.Maxs[2]),
 			}
-			bspClusters[bspLeaf.Cluster].Origin = bspClusters[bspLeaf.Cluster].Maxs.Sub(bspClusters[bspLeaf.Cluster].Mins)
+			bspClusters[bspLeaf.Cluster].Origin = bspClusters[bspLeaf.Cluster].Mins.Add(bspClusters[bspLeaf.Cluster].Maxs.Sub(bspClusters[bspLeaf.Cluster].Mins))
 		}
 	}
 
@@ -77,7 +77,7 @@ func loadWorld(targetScene *Scene, file *bsplib.Bsp, fs filesystem.IFileSystem) 
 		for _, leafId := range prop.LeafList() {
 			clusterId := visData.Leafs[leafId].Cluster
 			if clusterId == -1 {
-				//defaultCluster.StaticProps = append(defaultCluster.StaticProps, &staticProps[idx])
+				defaultCluster.StaticProps = append(defaultCluster.StaticProps, &baseWorldStaticProps[idx])
 				continue
 			}
 			bspClusters[clusterId].StaticProps = append(bspClusters[clusterId].StaticProps, &baseWorldStaticProps[idx])

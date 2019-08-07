@@ -2,8 +2,8 @@ package main
 
 import (
 	keyvalues "github.com/galaco/KeyValues"
+	"github.com/galaco/lambda-client/core/filesystem"
 	"github.com/galaco/lambda-client/internal/config"
-	"github.com/galaco/lambda-core/filesystem"
 	"github.com/galaco/tinygametools"
 )
 

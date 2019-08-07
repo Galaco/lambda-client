@@ -1,10 +1,10 @@
 package ui
 
 import (
+	"github.com/galaco/lambda-client/core/filesystem"
+	vguiCore "github.com/galaco/lambda-client/core/loader/vgui"
+	"github.com/galaco/lambda-client/core/vgui"
 	"github.com/galaco/lambda-client/engine"
-	"github.com/galaco/lambda-core/filesystem"
-	vguiCore "github.com/galaco/lambda-core/loader/vgui"
-	"github.com/galaco/lambda-core/vgui"
 	"github.com/galaco/tinygametools"
 )
 
