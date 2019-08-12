@@ -7,7 +7,7 @@ require (
 	github.com/galaco/lambda-core v1.0.0
 	github.com/galaco/packrect v0.0.0-20190221114019-d10c60f871c0 // indirect
 	github.com/galaco/source-tools-common v0.1.0
-	github.com/galaco/tinygametools v0.0.0-20190628130855-0eeabd5f3aa2
+	github.com/galaco/tinygametools v0.0.0-20190809035027-dcc1f15063b1
 	github.com/go-gl/gl v0.0.0-20190320195200-bf2b1f2f34d7
 	github.com/go-gl/glfw v0.0.0-20190409004039-e6da0acd62b1
 	github.com/go-gl/mathgl v0.0.0-20190713203922-592312d8590a
