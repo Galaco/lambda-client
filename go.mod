@@ -23,5 +23,5 @@ require (
 	golang.org/x/net v0.0.0-20190620200207-3b0461eec859 // indirect
 	golang.org/x/sys v0.0.0-20190813065148-fde4db37ae7a // indirect
 	golang.org/x/text v0.3.2 // indirect
-	golang.org/x/tools v0.0.0-20190812224724-2ad8dc80bc2f // indirect
+	golang.org/x/tools v0.0.0-20190813043502-528a2984e271 // indirect
 )
