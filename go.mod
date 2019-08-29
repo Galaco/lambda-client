@@ -19,7 +19,7 @@ require (
 	github.com/stretchr/objx v0.2.0 // indirect
 	github.com/vulkan-go/glfw v0.0.0-20190520160600-32f33e359ff2
 	golang.org/x/crypto v0.0.0-20190621222207-cc06ce4a13d4 // indirect
-	golang.org/x/image v0.0.0-20190802013336-cff245a6509b // indirect
+	golang.org/x/image 6ea169446634 // indirect
 	golang.org/x/net v0.0.0-20190620200207-3b0461eec859 // indirect
 	golang.org/x/sys 5fe476d8906b // indirect
 	golang.org/x/text v0.3.2 // indirect
