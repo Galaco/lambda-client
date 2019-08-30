@@ -20,7 +20,7 @@ require (
 	github.com/vulkan-go/glfw v0.0.0-20190520160600-32f33e359ff2
 	golang.org/x/crypto v0.0.0-20190621222207-cc06ce4a13d4 // indirect
 	golang.org/x/image 6ea169446634 // indirect
-	golang.org/x/net v0.0.0-20190620200207-3b0461eec859 // indirect
+	golang.org/x/net ba9fcec4b297 // indirect
 	golang.org/x/sys 5fe476d8906b // indirect
 	golang.org/x/text v0.3.2 // indirect
 	golang.org/x/tools v0.0.0-20190813043502-528a2984e271 // indirect
