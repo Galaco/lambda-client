@@ -4,7 +4,7 @@ require (
 	github.com/galaco/KeyValues v1.3.1
 	github.com/galaco/bsp v0.2.1
 	github.com/galaco/gosigl v0.0.0-20190218114618-7d72bfe172dc
-	github.com/galaco/lambda-core v1.0.0
+	github.com/galaco/lambda-core v1.0.1
 	github.com/galaco/packrect v0.0.0-20190221114019-d10c60f871c0 // indirect
 	github.com/galaco/source-tools-common v0.1.0
 	github.com/galaco/tinygametools v0.0.0-20190809035027-dcc1f15063b1
