@@ -2,9 +2,9 @@ package material
 
 import (
 	"github.com/galaco/gosigl"
-	"github.com/galaco/lambda-core/event"
-	"github.com/galaco/lambda-core/material"
-	"github.com/galaco/lambda-core/resource/message"
+	"github.com/galaco/lambda-client/core/event"
+	"github.com/galaco/lambda-client/core/material"
+	"github.com/galaco/lambda-client/core/resource/message"
 	"sync"
 )
 

@@ -1,9 +1,9 @@
 package cache
 
 import (
-	"github.com/galaco/lambda-core/entity"
-	entity2 "github.com/galaco/lambda-core/game/entity"
-	"github.com/galaco/lambda-core/model"
+	"github.com/galaco/lambda-client/core/entity"
+	entity2 "github.com/galaco/lambda-client/core/game/entity"
+	"github.com/galaco/lambda-client/core/model"
 )
 
 type PropCache struct {
