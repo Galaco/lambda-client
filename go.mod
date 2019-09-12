@@ -21,7 +21,7 @@ require (
 	github.com/inkyblackness/imgui-go v1.10.0
 	github.com/logrusorgru/aurora v0.0.0-20190803045625-94edacc10f9b // indirect
 	github.com/mattn/go-gtk v0.0.0-20190405072524-4deadb416788 // indirect
-	github.com/mattn/go-pointer v0.0.0-20180825124634-49522c3f3791 // indirect
+	github.com/mattn/go-pointer a0a44394634f // indirect
 	github.com/skelterjohn/go.wde v0.0.0-20190318181201-adc3f78cdb45 // indirect
 	github.com/sqweek/dialog v0.0.0-20190728103913-6254ed5b0d3c
 	github.com/stretchr/objx v0.2.0 // indirect
