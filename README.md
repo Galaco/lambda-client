@@ -13,7 +13,7 @@ load and play that games levels. Where this progresses beyond that, needs to be 
 source games with game specific code layered on top (target multiplayer as priority), or the full server simulation for single player games
 would be written (targeting single player as priority).
 
-![de_dust2](https://cdn.galaco.me/github/lambda-client/readme/de_dust2_sample.gif)
+![de_dust2](https://cdn.galaco.me/github/lambda-client/readme/de_dust2.gif)
 
 ## Current features
 You can build this right now, and, assuming you set the configuration to point to an existing Source game installation (this is tested primarily against CS:S):
