@@ -13,7 +13,7 @@ require (
 	github.com/galaco/tinygametools v0.0.0-20190809035027-dcc1f15063b1
 	github.com/galaco/vmf v1.0.0
 	github.com/galaco/vpk2 v0.0.0-20181012095330-21e4d1f6c888
-	github.com/galaco/vtf v0.0.0-20190404150943-92f43cff5944
+	github.com/galaco/vtf/v2 v2.0.1
 	github.com/go-gl/gl v0.0.0-20190320195200-bf2b1f2f34d7
 	github.com/go-gl/glfw v0.0.0-20190409004039-e6da0acd62b1
 	github.com/go-gl/mathgl v0.0.0-20190713203922-592312d8590a
