@@ -29,5 +29,5 @@ require (
 	golang.org/x/image v0.0.0-20190910094157-69e4b8554b2a // indirect
 	golang.org/x/sys v0.0.0-20190829204830-5fe476d8906b // indirect
 	golang.org/x/text v0.3.2 // indirect
-	golang.org/x/tools v0.0.0-20190908135931-fef9eaa9e42b // indirect
+	golang.org/x/tools 3720d1ec3678 // indirect
 )
