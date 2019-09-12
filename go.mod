@@ -25,7 +25,7 @@ require (
 	github.com/skelterjohn/go.wde v0.0.0-20190318181201-adc3f78cdb45 // indirect
 	github.com/sqweek/dialog v0.0.0-20190728103913-6254ed5b0d3c
 	github.com/stretchr/objx v0.2.0 // indirect
-	golang.org/x/crypto v0.0.0-20190621222207-cc06ce4a13d4 // indirect
+	golang.org/x/crypto 227b76d455e7 // indirect
 	golang.org/x/image v0.0.0-20190910094157-69e4b8554b2a // indirect
 	golang.org/x/sys v0.0.0-20190829204830-5fe476d8906b // indirect
 	golang.org/x/text v0.3.2 // indirect
