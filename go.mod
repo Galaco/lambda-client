@@ -27,7 +27,7 @@ require (
 	github.com/stretchr/objx v0.2.0 // indirect
 	golang.org/x/crypto v0.0.0-20190621222207-cc06ce4a13d4 // indirect
 	golang.org/x/image v0.0.0-20190910094157-69e4b8554b2a // indirect
-	golang.org/x/sys v0.0.0-20190829204830-5fe476d8906b // indirect
+	golang.org/x/sys c3b328c6e5a7 // indirect
 	golang.org/x/text v0.3.2 // indirect
 	golang.org/x/tools 3720d1ec3678 // indirect
 )
