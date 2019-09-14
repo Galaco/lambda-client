@@ -5,7 +5,7 @@ go 1.13
 require (
 	github.com/galaco/KeyValues v1.3.1
 	github.com/galaco/StudioModel v0.1.0
-	github.com/galaco/bsp v0.2.1
+	github.com/galaco/bsp v0.2.2
 	github.com/galaco/gosigl v0.0.0-20190218084636-7d72bfe172dc
 	github.com/galaco/loggy v0.0.0-20190629005848-af043014a903
 	github.com/galaco/packrect v0.0.0-20190221101750-d10c60f871c0
