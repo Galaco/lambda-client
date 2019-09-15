@@ -10,7 +10,7 @@ require (
 	github.com/galaco/loggy v0.0.0-20190629005848-af043014a903
 	github.com/galaco/packrect v0.0.0-20190221101750-d10c60f871c0
 	github.com/galaco/source-tools-common v0.1.0
-	github.com/galaco/tinygametools v0.0.0-20190809035027-dcc1f15063b1
+	github.com/galaco/tinygametools v0.1.0
 	github.com/galaco/vmf v1.0.0
 	github.com/galaco/vpk2 v0.0.0-20181012095330-21e4d1f6c888
 	github.com/galaco/vtf v0.0.0-20190404150943-92f43cff5944
