@@ -5,11 +5,6 @@ import (
 	"github.com/galaco/KeyValues"
 	"github.com/galaco/lambda-client/behaviour"
 	"github.com/galaco/lambda-client/behaviour/controllers"
-	"github.com/galaco/lambda-client/core/filesystem"
-	"github.com/galaco/lambda-client/core/game"
-	"github.com/galaco/lambda-client/core/lib/gameinfo"
-	"github.com/galaco/lambda-client/core/lib/util"
-	"github.com/galaco/lambda-client/core/resource"
 	"github.com/galaco/lambda-client/engine"
 	"github.com/galaco/lambda-client/event"
 	"github.com/galaco/lambda-client/input"
@@ -20,7 +15,12 @@ import (
 	"github.com/galaco/lambda-client/scene"
 	"github.com/galaco/lambda-client/ui/dialogs"
 	"github.com/galaco/lambda-client/window"
+	"github.com/galaco/lambda-core/game"
+	"github.com/galaco/lambda-core/lib/gameinfo"
+	"github.com/galaco/lambda-core/lib/util"
+	"github.com/galaco/lambda-core/resource"
 	"github.com/galaco/tinygametools"
+	"github.com/golang-source-engine/filesystem"
 	"log"
 	"runtime"
 )
@@ -58,12 +58,19 @@ func main() {
 	// Register GameInfo.txt referenced resource paths
 	// Filesystem module needs to know about all the possible resource
 	// locations it can search.
-	container.Filesystem = filesystem.CreateFilesystemFromGameInfoDefinitions(cfg.GameDirectory, gameInfo)
+	container.Filesystem, err = filesystem.CreateFilesystemFromGameInfoDefinitions(cfg.GameDirectory, gameInfo, true)
+	if err != nil {
+		util.Logger().Error(err)
+	} else {
+		for _, loc := range container.Filesystem.EnumerateResourcePaths() {
+			util.Logger().Notice(fmt.Sprintf("Loaded resource path: %s", loc))
+		}
+	}
 
 	// Explicitly define fallbacks for missing resources
 	// Defaults are defined, but if HL2 assets are not readable, then
 	// the default may not be readable
-	resource.Manager().SetErrorModelName("models/props/de_dust/du_antenna_A.mdl")
+	resource.Manager().SetErrorModelName("models/error.mdl")
 	resource.Manager().SetErrorTextureName("materials/error.vtf")
 	defer resource.Manager().Empty()
 

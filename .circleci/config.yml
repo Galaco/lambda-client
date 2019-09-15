@@ -2,14 +2,13 @@ version: 2
 jobs:
   build:
     docker:
-      - image: galaco/go-gtk-ci:1.12b2
+      - image: galaco/go-gtk-ci:1.13b1
     steps:
       - checkout
       - run:
           name: Install Go Dependencies
           command: |
             go get -u
-            go get -v github.com/golangci/golangci-lint/cmd/golangci-lint
       - run:
           name: Lint
           command: golangci-lint run --deadline=2m

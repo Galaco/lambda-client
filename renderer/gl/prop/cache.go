@@ -2,8 +2,8 @@ package prop
 
 import (
 	"github.com/galaco/gosigl"
-	"github.com/galaco/lambda-client/core/event"
-	"github.com/galaco/lambda-client/core/resource/message"
+	"github.com/galaco/lambda-core/event"
+	"github.com/galaco/lambda-core/resource/message"
 )
 
 var ModelIdMap map[string][]*gosigl.VertexObject

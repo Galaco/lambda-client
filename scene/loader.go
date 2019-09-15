@@ -3,20 +3,20 @@ package scene
 import (
 	bsplib "github.com/galaco/bsp"
 	"github.com/galaco/bsp/lumps"
-	"github.com/galaco/lambda-client/core/entity"
-	"github.com/galaco/lambda-client/core/filesystem"
-	"github.com/galaco/lambda-client/core/lib/util"
-	"github.com/galaco/lambda-client/core/loader"
-	entity2 "github.com/galaco/lambda-client/core/loader/entity"
-	"github.com/galaco/lambda-client/core/model"
 	"github.com/galaco/lambda-client/internal/config"
 	"github.com/galaco/lambda-client/scene/visibility"
 	"github.com/galaco/lambda-client/scene/world"
+	"github.com/galaco/lambda-core/entity"
+	"github.com/galaco/lambda-core/lib/util"
+	"github.com/galaco/lambda-core/loader"
+	entity2 "github.com/galaco/lambda-core/loader/entity"
+	"github.com/galaco/lambda-core/model"
 	entitylib "github.com/galaco/source-tools-common/entity"
 	"github.com/go-gl/mathgl/mgl32"
+	"github.com/golang-source-engine/filesystem"
 )
 
-func LoadFromFile(fileName string, fs filesystem.IFileSystem) {
+func LoadFromFile(fileName string, fs *filesystem.FileSystem) {
 	newScene := Get()
 
 	bspData, err := bsplib.ReadFromFile(fileName)
@@ -37,7 +37,7 @@ func LoadFromFile(fileName string, fs filesystem.IFileSystem) {
 	loadCamera(newScene)
 }
 
-func loadWorld(targetScene *Scene, file *bsplib.Bsp, fs filesystem.IFileSystem) {
+func loadWorld(targetScene *Scene, file *bsplib.Bsp, fs *filesystem.FileSystem) {
 	baseWorld := loader.LoadMap(fs, file)
 
 	baseWorldBsp := baseWorld.Bsp()
@@ -94,7 +94,7 @@ func loadWorld(targetScene *Scene, file *bsplib.Bsp, fs filesystem.IFileSystem) 
 	targetScene.SetWorld(world.NewWorld(*baseWorld.Bsp(), baseWorld.StaticProps(), visData))
 }
 
-func loadEntities(targetScene *Scene, entdata *lumps.EntData, fs filesystem.IFileSystem) {
+func loadEntities(targetScene *Scene, entdata *lumps.EntData, fs *filesystem.FileSystem) {
 	vmfEntityTree, err := entity2.ParseEntities(entdata.GetData())
 	if err != nil {
 		util.Logger().Panic(err)
