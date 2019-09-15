@@ -1,7 +1,7 @@
 package camera
 
 import (
-	"github.com/galaco/lambda-client/core/entity"
+	"github.com/galaco/lambda-core/entity"
 	"github.com/go-gl/mathgl/mgl32"
 	"math"
 )

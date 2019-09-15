@@ -1,7 +1,7 @@
 package ui
 
 import (
-	"github.com/galaco/lambda-client/core/vgui"
+	"github.com/galaco/lambda-core/vgui"
 	"github.com/galaco/tinygametools"
 	"github.com/inkyblackness/imgui-go"
 )

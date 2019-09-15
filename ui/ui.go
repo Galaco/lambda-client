@@ -1,11 +1,11 @@
 package ui
 
 import (
-	"github.com/galaco/lambda-client/core/filesystem"
-	vguiCore "github.com/galaco/lambda-client/core/loader/vgui"
-	"github.com/galaco/lambda-client/core/vgui"
 	"github.com/galaco/lambda-client/engine"
+	vguiCore "github.com/galaco/lambda-core/loader/vgui"
+	"github.com/galaco/lambda-core/vgui"
 	"github.com/galaco/tinygametools"
+	"github.com/golang-source-engine/filesystem"
 )
 
 type Gui struct {
@@ -27,7 +27,7 @@ func (ui *Gui) Render() {
 }
 
 // LoadVGUIResource
-func (ui *Gui) LoadVGUIResource(fs filesystem.IFileSystem, filename string) error {
+func (ui *Gui) LoadVGUIResource(fs *filesystem.FileSystem, filename string) error {
 	p, err := vguiCore.LoadVGUI(fs, filename)
 	if err != nil {
 		return err
