@@ -9,6 +9,8 @@ github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSs
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/galaco/KeyValues v1.3.1 h1:Mka6aZcMSrFawDAGTk7Y0mKHTlGmqiqfz1zIaHs5jYc=
 github.com/galaco/KeyValues v1.3.1/go.mod h1:EByNBjnai9BpKGMykvBD3G28R+L6OubVnRkvZrYxP2Y=
+github.com/galaco/KeyValues v1.4.1 h1:g50MJ4Ephqe1EqG8WB2S55Zye1JFnjOsHP5TwIKM7Ao=
+github.com/galaco/KeyValues v1.4.1/go.mod h1:00r0hZpLlOBIHehyWAgUngjKPoo3vCVP25BgWLwOP7E=
 github.com/galaco/StudioModel v0.1.0 h1:TLDYjlx3C1yNfDjV2XI5NW+UayIQexfNBQfF1JJsNTI=
 github.com/galaco/StudioModel v0.1.0/go.mod h1:kMK3O6si6tHlxuxYvUAOuPsINUq00i+N5FqusJqaEvs=
 github.com/galaco/bsp v0.2.1 h1:wejBNZoIM8kJvCPxlP8zAOUBk0e8dDFxOna9MFl4UmQ=
