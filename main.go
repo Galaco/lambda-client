@@ -122,12 +122,7 @@ func main() {
 // SetGame registers game entities and returns game name
 func SetGame(proj game.IGame, gameInfo *keyvalues.KeyValue) string {
 	windowName := "lambda-client: A BSP Viewer"
-	gameInfoNode, _ := gameInfo.Find("GameInfo")
-	if gameInfoNode == nil {
-		util.Logger().Panic("gameinfo was not found.")
-		return windowName
-	}
-	gameNode, _ := gameInfoNode.Find("game")
+	gameNode, _ := gameInfo.Find("game")
 	if gameNode != nil {
 		windowName, _ = gameNode.AsString()
 	}
