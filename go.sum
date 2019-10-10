@@ -76,6 +76,8 @@ github.com/golang-source-engine/vmt v0.1.0 h1:B9RVSozvfgnfK0FWao/XPgf83FVIByeMeQ
 github.com/golang-source-engine/vmt v0.1.0/go.mod h1:bXMpaO+WnKcuJ+CyR8sgrKnxQ+2+13OribIL+pgZmeg=
 github.com/gotk3/gotk3 v0.0.0-20190831133442-e289f56e4d6b h1:VZpWtpNVtfwkhtQfoWy0VXxK32GUhNdQMstC/fcs9EA=
 github.com/gotk3/gotk3 v0.0.0-20190831133442-e289f56e4d6b/go.mod h1:Eew3QBwAOBTrfFFDmsDE5wZWbcagBL1NUslj1GhRveo=
+github.com/gotk3/gotk3 v0.0.0-20191010201156-711c17fcaec0 h1:W3j2NfHLKn7Etm9HlqGCMpsIxk9VFpYmrh7TchldFSk=
+github.com/gotk3/gotk3 v0.0.0-20191010201156-711c17fcaec0/go.mod h1:Eew3QBwAOBTrfFFDmsDE5wZWbcagBL1NUslj1GhRveo=
 github.com/inkyblackness/imgui-go v1.9.0 h1:T33ALLCA+HUdVMg8naJ9ZR0WR4NRW5Cg2hQvo1ajKss=
 github.com/inkyblackness/imgui-go v1.9.0/go.mod h1:Mki1fp0SBQ0dq2wkAPKjI3Zod0fgpEFsPM9cGUoCNi8=
 github.com/inkyblackness/imgui-go v1.10.0 h1:DEgLKIhFQga7ElKmwfHucphTPq8QcOOEeiW4adQCAuE=
