@@ -29,12 +29,16 @@ github.com/galaco/lambda-core v1.1.0 h1:VJ5ya7rLodk0lZckHKPKxvFPNmIcBjYGYhni8eOd
 github.com/galaco/lambda-core v1.1.0/go.mod h1:xqDeb8hIvL0f/xxWyt1wRrLcqlvqwVeW4reYkUgyOr4=
 github.com/galaco/lambda-core v1.1.1 h1:0qjoRnp0c5jKqCN6A0fTYo6U5AVPOZOq1o2/ZkGtl6M=
 github.com/galaco/lambda-core v1.1.1/go.mod h1:nPBP4Nq7zr31+RKn12p19V+C/In0v3fS8zlNQ1Nvn3s=
+github.com/galaco/lambda-core v1.1.3 h1:J3LwJd5PqdGCCdzu5xL1+ZM85k4dQl9rESqSpnKQrhU=
+github.com/galaco/lambda-core v1.1.3/go.mod h1:1FttA43jB28ppIboO9ohpT1+UFNMmQSnoXAw9ig8SXA=
 github.com/galaco/loggy v0.0.0-20190629005848-af043014a903 h1:AqLxGU6ynMSX0EneOsa5wE2EizsN0gRPVIZZSUYiGfk=
 github.com/galaco/loggy v0.0.0-20190629005848-af043014a903/go.mod h1:MCpME2n8JUMLql/kF69GPXQKkJciiNTBI/otWCkTjw8=
 github.com/galaco/packrect v0.0.0-20190221101750-d10c60f871c0 h1:SVIvhbyFy8TyeYKhGOcC84nWozD1CBn+trzO0MSQzRE=
 github.com/galaco/packrect v0.0.0-20190221101750-d10c60f871c0/go.mod h1:1QOQWDBGRc6sT0tglK344YodNuAGsj6WPqZXzzpv6f4=
 github.com/galaco/source-tools-common v0.1.0 h1:NHhsoSKL42dfFKnfRI2D/3um0tbNLVP2ZAWNoEGPMNM=
 github.com/galaco/source-tools-common v0.1.0/go.mod h1:+TApRVomBN759va2qrv5GaLuCaK2AWxR0tn9oc2U73Q=
+github.com/galaco/studiomodel v0.1.2 h1:y9aPGiL64hP1TEdWn2n3JaeZDFGUMet5dzmXPva15ds=
+github.com/galaco/studiomodel v0.1.2/go.mod h1:8bzTjcsmb1OsLLaf2ES60avF9WfAaZtVGKUw/IXe14c=
 github.com/galaco/tinygametools v0.0.0-20190628130855-0eeabd5f3aa2 h1:8XOMIJ1QHwvZ/IcF7jry7vHj3sVSumYGvzl0o9TgMxc=
 github.com/galaco/tinygametools v0.0.0-20190628130855-0eeabd5f3aa2/go.mod h1:uhxliQyadXV+GSlkwsQMUPv45lr61vNv1Z8N+CsDvFQ=
 github.com/galaco/tinygametools v0.0.0-20190809035027-dcc1f15063b1 h1:8oViNV37zoSdaxVajN0EbOb8+rijVIFmWag0xa86Twk=
@@ -74,6 +78,8 @@ github.com/golang-source-engine/vmt v0.0.0-20190917225430-668305ff2fd8 h1:jBRzeb
 github.com/golang-source-engine/vmt v0.0.0-20190917225430-668305ff2fd8/go.mod h1:NVdf67X6t/Uu2WsOIyVNMJPGR9DIhBJMqrU2rpJlqQM=
 github.com/golang-source-engine/vmt v0.1.0 h1:B9RVSozvfgnfK0FWao/XPgf83FVIByeMeQNm5onInU8=
 github.com/golang-source-engine/vmt v0.1.0/go.mod h1:bXMpaO+WnKcuJ+CyR8sgrKnxQ+2+13OribIL+pgZmeg=
+github.com/golang-source-engine/vmt v0.1.1 h1:yBl2XzwBhmwmpEWxEK5t7HpfL63ZTOwGcEMsA/xUrTc=
+github.com/golang-source-engine/vmt v0.1.1/go.mod h1:devs1P7sA/Spthvxw8+wzuEsN3Ibadbia6n3SQQfdW8=
 github.com/gotk3/gotk3 v0.0.0-20190831133442-e289f56e4d6b h1:VZpWtpNVtfwkhtQfoWy0VXxK32GUhNdQMstC/fcs9EA=
 github.com/gotk3/gotk3 v0.0.0-20190831133442-e289f56e4d6b/go.mod h1:Eew3QBwAOBTrfFFDmsDE5wZWbcagBL1NUslj1GhRveo=
 github.com/inkyblackness/imgui-go v1.9.0 h1:T33ALLCA+HUdVMg8naJ9ZR0WR4NRW5Cg2hQvo1ajKss=
