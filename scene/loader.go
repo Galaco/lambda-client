@@ -45,8 +45,7 @@ func loadWorld(targetScene *Scene, file *bsplib.Bsp, fs *filesystem.FileSystem) 
 	baseWorldStaticProps := baseWorld.StaticProps()
 
 	visData := visibility.NewVisFromBSP(file)
-	visLump := file.Lump(bsplib.LumpVisibility).(*lumps.Visibility).GetData()
-	bspClusters := make([]model.ClusterLeaf, visLump.NumClusters)
+	bspClusters := make([]model.ClusterLeaf, visData.VisibilityLump.NumClusters)
 	defaultCluster := model.ClusterLeaf{
 		Id: 32767,
 	}
