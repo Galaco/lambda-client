@@ -1,6 +1,7 @@
-
 # Lambda Client
 > Lambda Client is a game engine written in golang designed that loads Valve's Source Engine projects. 
+
+**This project has been deprecated (for now) in favour of [https://github.com/galaco/kero](https://github.com/galaco/kero)**
 
 [![CircleCI](https://circleci.com/gh/Galaco/lambda-client.svg?style=svg)](https://circleci.com/gh/Galaco/lambda-client)
 [![GoDoc](https://godoc.org/github.com/Galaco/lambda-client?status.svg)](https://godoc.org/github.com/Galaco/lambda-client)
