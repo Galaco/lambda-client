@@ -5,7 +5,7 @@ go 1.13
 require (
 	github.com/galaco/KeyValues v1.4.1
 	github.com/galaco/bsp v0.2.2
-	github.com/galaco/gosigl v0.1.1
+	github.com/galaco/gosigl v0.2.0
 	github.com/galaco/lambda-core v1.1.3
 	github.com/galaco/source-tools-common v0.1.0
 	github.com/galaco/tinygametools v0.1.0
