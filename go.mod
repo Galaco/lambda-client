@@ -18,6 +18,6 @@ require (
 	github.com/gotk3/gotk3 v0.0.0-20191027191019-60cba67d4ea4 // indirect
 	github.com/inkyblackness/imgui-go v1.10.0
 	github.com/logrusorgru/aurora v0.0.0-20191017060258-dc85c304c434 // indirect
-	github.com/sqweek/dialog v0.0.0-20190728103509-6254ed5b0d3c
+	github.com/sqweek/dialog 8a3d98e8211d
 	golang.org/x/image v0.0.0-20191009234506-e7c1f5e7dbb8 // indirect
 )
