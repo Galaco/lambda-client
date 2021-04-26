@@ -11,7 +11,7 @@ require (
 	github.com/galaco/tinygametools v0.1.0
 	github.com/galaco/vtf v1.2.0 // indirect
 	github.com/go-gl/gl v0.0.0-20190320180904-bf2b1f2f34d7
-	github.com/go-gl/glfw v0.0.0-20190409004039-e6da0acd62b1
+	github.com/go-gl/glfw ea3d685f79fb
 	github.com/go-gl/mathgl v0.0.0-20190713194549-592312d8590a
 	github.com/golang-source-engine/filesystem v0.1.2
 	github.com/golang-source-engine/vmt v0.1.2 // indirect
