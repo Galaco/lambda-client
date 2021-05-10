@@ -5,7 +5,7 @@ import (
 	vguiCore "github.com/galaco/lambda-core/loader/vgui"
 	"github.com/galaco/lambda-core/vgui"
 	"github.com/galaco/tinygametools"
-	"github.com/golang-source-engine/filesystem"
+	"github.com/galaco/filesystem"
 )
 
 type Gui struct {

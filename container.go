@@ -4,7 +4,7 @@ import (
 	keyvalues "github.com/galaco/KeyValues"
 	"github.com/galaco/lambda-client/internal/config"
 	"github.com/galaco/tinygametools"
-	"github.com/golang-source-engine/filesystem"
+	"github.com/galaco/filesystem"
 )
 
 // Container

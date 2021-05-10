@@ -20,7 +20,7 @@ import (
 	"github.com/galaco/lambda-core/lib/util"
 	"github.com/galaco/lambda-core/resource"
 	"github.com/galaco/tinygametools"
-	"github.com/golang-source-engine/filesystem"
+	"github.com/galaco/filesystem"
 	"log"
 	"runtime"
 )

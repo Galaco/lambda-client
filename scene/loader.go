@@ -13,7 +13,7 @@ import (
 	"github.com/galaco/lambda-core/model"
 	entitylib "github.com/galaco/source-tools-common/entity"
 	"github.com/go-gl/mathgl/mgl32"
-	"github.com/golang-source-engine/filesystem"
+	"github.com/galaco/filesystem"
 )
 
 func LoadFromFile(fileName string, fs *filesystem.FileSystem) {
