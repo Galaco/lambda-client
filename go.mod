@@ -8,7 +8,7 @@ require (
 	github.com/galaco/gosigl v0.1.1
 	github.com/galaco/lambda-core v1.1.3
 	github.com/galaco/source-tools-common v0.1.0
-	github.com/galaco/tinygametools v0.1.0
+	github.com/galaco/tinygametools v0.1.1
 	github.com/galaco/vtf v1.2.0 // indirect
 	github.com/go-gl/gl v0.0.0-20190320180904-bf2b1f2f34d7
 	github.com/go-gl/mathgl v0.0.0-20190713194549-592312d8590a
