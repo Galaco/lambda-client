@@ -1,6 +1,6 @@
 module github.com/galaco/lambda-client
 
-go 1.14
+go 1.19
 
 require (
 	github.com/galaco/KeyValues v1.4.1
